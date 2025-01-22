@@ -6,12 +6,19 @@ import { generateAccessRefreshToken } from "../controllers/auth/user.controller"
 declare global {
   namespace Express {
     interface Request {
-      user: object;
+      user: {
+        email: string;
+        _id: string;
+      };
     }
   }
 }
 
-const authenticate = (req: Request, res: Response, next: NextFunction): any => {
+export const authenticate = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): any => {
   const token = req.cookies.access_token;
 
   if (!token) {
@@ -31,6 +38,8 @@ const authenticate = (req: Request, res: Response, next: NextFunction): any => {
         );
     }
     // Passing the User to the next middleware
+    console.log(decoded);
+
     req.user = decoded;
 
     const Expiry_left_in_hours = (decoded.exp - decoded.iat) / (60 * 60);
@@ -62,4 +71,12 @@ const authenticate = (req: Request, res: Response, next: NextFunction): any => {
   next();
 };
 
-export default authenticate;
+export const authController = async (req: Request, res: Response) => {
+  try {
+    res
+      .status(200)
+      .json(new ApiResponse(200, req.user, "User is Authenticated"));
+  } catch (error) {
+    console.log("Error in Auth Middleware", error);
+  }
+};
