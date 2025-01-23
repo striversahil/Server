@@ -7,6 +7,7 @@ interface User extends mongoose.Document {
   email: string;
   refreshToken: string;
   password: string;
+  profile: mongoose.Types.ObjectId;
   workspaces: mongoose.Types.ObjectId[]; // Used mongoose.types.objectId because needed to convert string to object id
   createdAt: Date;
   updatedAt: Date;
@@ -64,6 +65,10 @@ const UserSchema: mongoose.Schema<User> = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "Password is required "],
+    },
+    profile: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Profile",
     },
     workspaces: [
       {

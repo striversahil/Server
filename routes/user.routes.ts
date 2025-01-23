@@ -18,17 +18,16 @@ router.route("/signup").post(registerUser);
 router.route("/signin").post(signIN);
 
 // WorkSpace Routes
-router.route("/workspace").get(authenticate, newWorkspace);
-router.route("/workspace/:workspaceId").post(authenticate, Testing);
+router.route("/workspace").get(newWorkspace);
+router.route("/workspace/:workspaceId").post(Testing);
 
 // Project Routes
-router.route("/project/:projectId").post(authenticate, Testing);
+router.route("/project/:projectId").post(Testing);
 
 // Middleware Testing
-router.route("/auth").get(authenticate, authController);
+router.route("/auth").get(authController);
 
 router.route("/").get(
-  authenticate,
   asyncHandler(async (req: Request, res: Response) => {
     const users = await User.findById(req.user._id);
     res.status(200).json(users);
