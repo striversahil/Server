@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
 
 import { signIN, registerUser } from "../controllers/auth/user.controller";
-import { Testing } from "../controllers/auth/workspace.controller";
+import {
+  Testing,
+  newWorkspace,
+} from "../controllers/auth/workspace.controller";
 
 import { Request, Response, Router } from "express";
 import { authenticate, authController } from "../middleware/auth.middleware";
@@ -15,6 +18,7 @@ router.route("/signup").post(registerUser);
 router.route("/signin").post(signIN);
 
 // WorkSpace Routes
+router.route("/workspace").get(authenticate, newWorkspace);
 router.route("/workspace/:workspaceId").post(authenticate, Testing);
 
 // Project Routes

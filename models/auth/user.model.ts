@@ -7,13 +7,37 @@ interface User extends mongoose.Document {
   email: string;
   refreshToken: string;
   password: string;
-  workspaces: mongoose.Schema.Types.ObjectId[];
+  workspaces: Workspace[];
   createdAt: Date;
   updatedAt: Date;
   isCorrectPassword: (password: string) => Promise<boolean>;
   generateAccessToken: () => string;
   generateRefreshToken: () => string;
 }
+
+interface Workspace {
+  name: string;
+  user: mongoose.Schema.Types.ObjectId;
+  private: boolean;
+}
+
+// We are Creating Info Schema Containing Basic Details of Workspace
+
+const WorkspaceInfoSchema: mongoose.Schema<Workspace> = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  private: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const UserSchema: mongoose.Schema<User> = new mongoose.Schema(
   {
@@ -42,12 +66,7 @@ const UserSchema: mongoose.Schema<User> = new mongoose.Schema(
       type: String,
       required: [true, "Password is required "],
     },
-    workspaces: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Workspace",
-      },
-    ],
+    workspaces: [WorkspaceInfoSchema],
   },
   { timestamps: true }
 );

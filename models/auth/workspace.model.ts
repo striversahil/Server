@@ -24,7 +24,7 @@ const WorkspaceSchema: mongoose.Schema<Workspace> = new mongoose.Schema(
   {
     name: {
       type: String,
-      default: "",
+      default: "Untitled Workspace",
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
