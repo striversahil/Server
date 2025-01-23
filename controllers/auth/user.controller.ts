@@ -11,7 +11,7 @@ type UserType = {
   password: string;
 };
 
-const generateAccessRefreshToken = async (
+export const generateAccessRefreshToken = async (
   email: string
 ): Promise<{ accessToken: string; refreshToken: string }> => {
   try {
@@ -48,7 +48,7 @@ const cookie: object = {
   maxAge: 1000 * 60 * 60 * 24 * 15, // 15 days of cookie
 };
 
-const registerUser = asyncHandler(
+export const registerUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password }: UserType = req.body;
 
@@ -133,7 +133,7 @@ const registerUser = asyncHandler(
   }
 );
 
-const signIN = asyncHandler(async (req: Request, res: Response) => {
+export const signIN = asyncHandler(async (req: Request, res: Response) => {
   const { email, password }: UserType = req.body;
 
   if (!email || !password || !req.body) {
@@ -194,56 +194,20 @@ const signIN = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-const verifyToken = asyncHandler(async (req: Request, res: Response) => {
-  const token = req.cookies.access_token;
+export const UserInfo = asyncHandler(async (req: Request, res: Response) => {
+  const token = req.user;
   if (!token) {
     return res
       .status(401)
       .json(new ApiResponse(401, {}, "Redirecting to login..."));
   }
 
-  try {
-    const decoded = jwt.verify(
-      token,
-      process.env.REFRESH_TOKEN_SECRET as string
-    );
+  const user = await User.findOne({ _id: token._id });
 
-    const user = await User.findOne({ email: decoded });
-
-    if (!user) {
-      return res
-        .status(401)
-        .json(new ApiResponse(401, {}, "Unauthorized User"));
-    }
-
-    const TokenResponse = await generateAccessRefreshToken(user.email);
-
-    if (!TokenResponse) {
-      return res
-        .status(500)
-        .json(
-          new ApiResponse(
-            500,
-            {},
-            "User not created successfully due to server error"
-          )
-        );
-    }
-
-    const accessToken = TokenResponse.accessToken;
-    const refreshToken = TokenResponse.refreshToken;
-
-    res.cookie("access_token", accessToken, cookie);
-
-    user.refreshToken = refreshToken;
-    await user.save({ validateBeforeSave: false });
-
-    return res.status(200).json(new ApiResponse(200, {}, "Authorized"));
-  } catch (error) {
+  if (!user) {
     return res
       .status(401)
-      .json(new ApiResponse(500, {}, "Internal Server Error"));
+      .json(new ApiResponse(401, {}, "User is not authenticated"));
   }
+  return res.status(200).json(new ApiResponse(200, user, "Authorized"));
 });
-
-export { generateAccessRefreshToken, registerUser, signIN, verifyToken };

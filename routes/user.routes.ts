@@ -1,9 +1,13 @@
 import mongoose from "mongoose";
 
-import { signIN, registerUser } from "../controllers/auth/user.controller";
 import {
-  Testing,
+  signIN,
+  registerUser,
+  UserInfo,
+} from "../controllers/auth/user.controller";
+import {
   newWorkspace,
+  WorkSpaceInfo,
 } from "../controllers/auth/workspace.controller";
 
 import { Request, Response, Router } from "express";
@@ -13,24 +17,20 @@ import asyncHandler from "../helper/asyncHandler";
 
 const router = Router();
 
+router.route("/").get(UserInfo);
+
 // Login Routes
 router.route("/signup").post(registerUser);
 router.route("/signin").post(signIN);
 
 // WorkSpace Routes
+router.route("/workspace/:workspaceId").get(WorkSpaceInfo);
 router.route("/workspace").get(newWorkspace);
-router.route("/workspace/:workspaceId").post(Testing);
 
 // Project Routes
-router.route("/project/:projectId").post(Testing);
+router.route("/project/:projectId").post();
 
 // Middleware Testing
 router.route("/auth").get(authController);
 
-router.route("/").get(
-  asyncHandler(async (req: Request, res: Response) => {
-    const users = await User.findById(req.user._id);
-    res.status(200).json(users);
-  })
-);
 export default router;
