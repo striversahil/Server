@@ -15,7 +15,7 @@ type Workspace = {
   user: mongoose.Schema.Types.ObjectId;
   private: boolean;
   members: Member[];
-  projects: mongoose.Schema.Types.ObjectId[];
+  projects: mongoose.Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
 };
@@ -63,6 +63,7 @@ const WorkspaceSchema: mongoose.Schema<Workspace> = new mongoose.Schema(
 // add default admin if not added
 WorkspaceSchema.pre("save", function (next) {
   if (this.isModified("members")) return next();
+  if (this.members.length > 0) return next();
   this.members.push({ member: this.user, role: Role.admin });
   next();
 });

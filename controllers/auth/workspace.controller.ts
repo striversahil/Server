@@ -51,13 +51,16 @@ export const newWorkspace = asyncHandler(
           )
         );
     }
-    user.workspaces.push();
+    user.workspaces = [...user.workspaces, workspace._id];
     user.save();
+
+    const workspaces = await User.findById(req.user._id).populate("workspaces");
 
     return res.status(200).json({
       message: "Welcome to Workspace Routes",
       workspace: workspace,
-      user: user,
+      user: "User Created Successfully 🚀",
+      workspaces: workspaces,
     });
   }
 );
