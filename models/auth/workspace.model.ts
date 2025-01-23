@@ -10,7 +10,7 @@ interface Member {
   role: Role;
 }
 
-type Workspace = {
+type WorkspaceInterface = {
   name: string;
   user: mongoose.Schema.Types.ObjectId;
   private: boolean;
@@ -20,7 +20,7 @@ type Workspace = {
   updatedAt: Date;
 };
 
-const WorkspaceSchema: mongoose.Schema<Workspace> = new mongoose.Schema(
+const WorkspaceSchema = new mongoose.Schema<WorkspaceInterface>(
   {
     name: {
       type: String,
