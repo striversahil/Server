@@ -7,6 +7,7 @@ const httpServer = createServer(app);
 // Keep this http Server at the top so to Implement Middlewares
 import userRoute from "./routes/user.routes";
 import bucketRoute from "./routes/bucket.routes";
+import { authenticate } from "./middleware/auth.middleware";
 // import bodyParser from "body-parser";
 
 app.use(
@@ -21,8 +22,8 @@ app.use(cookieparser()); // for parsing cookies
 
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-app.use("/user", userRoute);
+app.use("/user", authenticate, userRoute);
 
-app.use("/bucket", bucketRoute);
+app.use("/project", authenticate, bucketRoute);
 
 export default httpServer;

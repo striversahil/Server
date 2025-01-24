@@ -7,13 +7,37 @@ interface User extends mongoose.Document {
   email: string;
   refreshToken: string;
   password: string;
-  workspaces: mongoose.Schema.Types.ObjectId[];
+  profile: mongoose.Types.ObjectId;
+  workspaces: mongoose.Types.ObjectId[]; // Used mongoose.types.objectId because needed to convert string to object id
   createdAt: Date;
   updatedAt: Date;
   isCorrectPassword: (password: string) => Promise<boolean>;
   generateAccessToken: () => string;
   generateRefreshToken: () => string;
 }
+
+// interface Workspace {
+//   name: string;
+//   user: mongoose.Schema.Types.ObjectId;
+//   private: boolean;
+// }
+
+// // We are Creating Info Schema Containing Basic Details of Workspace
+
+// const WorkspaceInfoSchema: mongoose.Schema<Workspace> = new mongoose.Schema({
+//   name: {
+//     type: String,
+//     required: true,
+//   },
+//   user: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     required: true,
+//   },
+//   private: {
+//     type: Boolean,
+//     default: false,
+//   },
+// });
 
 const UserSchema: mongoose.Schema<User> = new mongoose.Schema(
   {
@@ -41,6 +65,10 @@ const UserSchema: mongoose.Schema<User> = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "Password is required "],
+    },
+    profile: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Profile",
     },
     workspaces: [
       {
