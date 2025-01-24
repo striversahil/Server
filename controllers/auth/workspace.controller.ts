@@ -7,7 +7,7 @@ import asyncHandler from "../../helper/asyncHandler";
 
 export const WorkSpaceInfo = asyncHandler(
   async (req: Request, res: Response) => {
-    const WorkspaceId = req.body.workspaceId;
+    const WorkspaceId = req.params.workspaceId;
     if (!WorkspaceId) {
       return res
         .status(401)

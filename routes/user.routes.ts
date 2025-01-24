@@ -12,8 +12,6 @@ import {
 
 import { Request, Response, Router } from "express";
 import { authenticate, authController } from "../middleware/auth.middleware";
-import { User } from "../models/auth/user.model";
-import asyncHandler from "../helper/asyncHandler";
 
 const router = Router();
 
