@@ -199,7 +199,9 @@ export const UserInfo = asyncHandler(async (req: Request, res: Response) => {
   if (!token) {
     return res
       .status(401)
-      .json(new ApiResponse(401, {}, "Redirecting to login..."));
+      .json(
+        new ApiResponse(401, {}, "Token not found. \n Redirecting to login...")
+      );
   }
 
   const user = await User.findOne({ _id: token._id });

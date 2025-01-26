@@ -15,20 +15,20 @@ import { authenticate, authController } from "../middleware/auth.middleware";
 
 const router = Router();
 
-router.route("/").get(UserInfo);
+router.route("/").get(authenticate, UserInfo);
 
 // Login Routes
 router.route("/signup").post(registerUser);
 router.route("/signin").post(signIN);
 
 // WorkSpace Routes
-router.route("/workspace/:workspaceId").get(WorkSpaceInfo);
-router.route("/workspace").get(newWorkspace);
+router.route("/workspace/:workspaceId").get(authenticate, WorkSpaceInfo);
+router.route("/workspace").get(authenticate, newWorkspace);
 
 // Project Routes
 router.route("/project/:projectId").post();
 
 // Middleware Testing
-router.route("/auth").get(authController);
+router.route("/auth").get(authenticate, authController);
 
 export default router;

@@ -38,7 +38,6 @@ export const authenticate = (
         );
     }
     // Passing the User to the next middleware
-    console.log(decoded);
 
     if (!decoded) {
       return res
@@ -74,7 +73,6 @@ export const authenticate = (
       });
     }
   });
-  console.log("Authenticated");
   next();
 };
 

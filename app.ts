@@ -22,7 +22,7 @@ app.use(cookieparser()); // for parsing cookies
 
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-app.use("/user", authenticate, userRoute);
+app.use("/user", userRoute);
 
 app.use("/project", authenticate, bucketRoute);
 
