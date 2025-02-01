@@ -45,7 +45,7 @@ const cookie: object = {
   httpOnly: true,
   secure: isProduction,
   sameSite: isProduction ? "none" : "lax",
-  maxAge: 1000 * 60 * 60 * 24 * 15, // 15 days of cookie
+  maxAge: 1000 * 60 * 60 * 24 * 2, // 2 days of cookie
 };
 
 export const registerUser = asyncHandler(
@@ -199,7 +199,9 @@ export const UserInfo = asyncHandler(async (req: Request, res: Response) => {
   if (!token) {
     return res
       .status(401)
-      .json(new ApiResponse(401, {}, "Redirecting to login..."));
+      .json(
+        new ApiResponse(401, {}, "Token not found. \n Redirecting to login...")
+      );
   }
 
   const user = await User.findOne({ _id: token._id });

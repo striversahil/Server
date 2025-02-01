@@ -38,7 +38,12 @@ export const authenticate = (
         );
     }
     // Passing the User to the next middleware
-    console.log(decoded);
+
+    if (!decoded) {
+      return res
+        .status(401)
+        .json(new ApiResponse(401, {}, "User is not authenticated"));
+    }
 
     req.user = decoded;
 
@@ -46,7 +51,7 @@ export const authenticate = (
     // Todo : Check for Expiry Reality
     console.log(Expiry_left_in_hours);
 
-    if (Expiry_left_in_hours < 10) {
+    if (Expiry_left_in_hours < 20) {
       const tokenResponse = await generateAccessRefreshToken(decoded.email);
       if (!tokenResponse) {
         return res
@@ -64,7 +69,7 @@ export const authenticate = (
         httpOnly: true,
         secure: isProduction,
         sameSite: isProduction ? "none" : "lax",
-        maxAge: 1000 * 60 * 60 * 24 * 15, // 15 days
+        maxAge: 1000 * 60 * 60 * 24 * 2, // 2 days
       });
     }
   });
