@@ -21,11 +21,6 @@ const ProjectSchema = new mongoose.Schema<ProjectInterface>(
       type: String,
       default: "Some details about this project",
     },
-    created_by: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
     workspace_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Workspace",

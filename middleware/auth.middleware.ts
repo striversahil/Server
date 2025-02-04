@@ -45,9 +45,9 @@ export const authenticate = (
         .json(new ApiResponse(401, {}, "User is not authenticated"));
     }
 
-    req.user = decoded;
-
-    const Expiry_left_in_hours = (decoded.exp - decoded.iat) / (60 * 60);
+    const now = new Date();
+    const Expiry_left_in_hours =
+      (decoded.exp * 1000 - now.getTime()) / (60 * 60 * 1000);
     // Todo : Check for Expiry Reality
     console.log(Expiry_left_in_hours);
 
@@ -72,6 +72,8 @@ export const authenticate = (
         maxAge: 1000 * 60 * 60 * 24 * 2, // 2 days
       });
     }
+
+    req.user = decoded;
   });
   next();
 };
