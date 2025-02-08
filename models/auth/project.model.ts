@@ -14,6 +14,7 @@ const ProjectSchema = new mongoose.Schema<ProjectInterface>(
     name: {
       type: String,
       required: true,
+      default: "Untitled Project",
     },
     details: {
       type: String,

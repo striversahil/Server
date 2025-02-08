@@ -3,7 +3,6 @@ import asyncHandler from "../../helper/asyncHandler";
 import ApiResponse from "../../helper/ApiResponse";
 import { Project } from "../../models/auth/project.model";
 import { Workspace } from "../../models/auth/workspace.model";
-import mongoose from "mongoose";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -17,11 +16,11 @@ const cookie: object = {
 
 // Get Project Controller Info
 export const ProjectInfo = asyncHandler(async (req: Request, res: Response) => {
-  const ProjectId = req.params.projectId;
+  const ProjectId = req.cookies.project_id;
   if (!ProjectId) {
     return res
-      .status(401)
-      .json(new ApiResponse(401, {}, "Redirecting to login..."));
+      .status(400)
+      .json(new ApiResponse(400, {}, "Project does not exist Create it First"));
   }
 
   const project = await Project.findOne({ _id: ProjectId });
@@ -34,6 +33,7 @@ export const ProjectInfo = asyncHandler(async (req: Request, res: Response) => {
       );
   }
 
+  // Adding this so that everytime user refreshes the page, the cookie is updated
   res.cookie("project_id", ProjectId, cookie);
 
   return res
@@ -49,16 +49,14 @@ export const newProject = asyncHandler(async (req: Request, res: Response) => {
       .json(new ApiResponse(401, {}, "User is not authenticated"));
   }
 
-  const workspaceId = req.params.workspaceId;
+  const workspaceId = req.cookies.workspace_id;
   if (!workspaceId) {
     return res
       .status(401)
       .json(new ApiResponse(401, {}, "Workspace does not exist Create it"));
   }
 
-  const project = await Project.create({
-    user: req.user._id,
-  });
+  const project = await new Project().save();
 
   if (!project) {
     return res
@@ -68,16 +66,18 @@ export const newProject = asyncHandler(async (req: Request, res: Response) => {
       );
   }
 
-  const workspace = await Workspace.findById(req.user._id);
+  const workspace = await Workspace.findById(workspaceId);
   if (!workspace) {
     return res
-      .status(401)
-      .json(new ApiResponse(401, {}, "Workspace does not exist with this id"));
+      .status(400)
+      .json(new ApiResponse(400, {}, "Workspace does not exist with this id"));
   }
 
   workspace.projects.push(project._id);
 
   await workspace.save();
+
+  res.cookie("project_id", project._id, cookie);
 
   return res
     .status(200)
@@ -86,11 +86,11 @@ export const newProject = asyncHandler(async (req: Request, res: Response) => {
 
 export const deleteProject = asyncHandler(
   async (req: Request, res: Response) => {
-    const projectId = req.params.projectId;
+    const projectId = req.cookies.project_id;
     if (!projectId) {
       return res
-        .status(401)
-        .json(new ApiResponse(401, {}, "Project does not exist Create it"));
+        .status(400)
+        .json(new ApiResponse(400, {}, "Project does not exist Create it"));
     }
 
     const project = await Project.findByIdAndDelete(projectId);

@@ -34,7 +34,7 @@ export const getComponents = asyncHandler(
     }
     return res
       .status(200)
-      .json(new ApiResponse(200, project.components, "Components Fetched"));
+      .json(new ApiResponse(200, project.components, "All Components Fetched"));
   }
 );
 
@@ -85,12 +85,12 @@ export const newComponent = asyncHandler(
     const project = await Project.findById(projectId);
     if (!project) {
       return res
-        .status(401)
+        .status(400)
         .json(
           new ApiResponse(
-            401,
+            400,
             {},
-            "Project could not be found \n Redirecting to login..."
+            "Project does not exist , Try Create it First"
           )
         );
     }

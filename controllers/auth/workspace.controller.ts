@@ -34,6 +34,7 @@ export const WorkSpaceInfo = asyncHandler(
         );
     }
 
+    // Adding this so that everytime user refreshes the page, the cookie is updated
     res.cookie("workspace_id", workspace._id, cookie);
 
     return res
@@ -94,7 +95,7 @@ export const newWorkspace = asyncHandler(
 
 export const deleteWorkspace = asyncHandler(
   async (req: Request, res: Response) => {
-    const workspaceId = req.params.workspaceId;
+    const workspaceId = req.cookies.workspace_id;
     if (!workspaceId) {
       return res
         .status(401)
