@@ -12,6 +12,7 @@ import {
 
 import { Request, Response, Router } from "express";
 import { authenticate, authController } from "../middleware/auth.middleware";
+import { newProject } from "../controllers/auth/project.controller";
 
 const router = Router();
 
@@ -27,6 +28,7 @@ router.route("/workspace").get(authenticate, newWorkspace);
 
 // Project Routes
 router.route("/project/:projectId").post();
+router.route("/workspace/:workspaceId/project").get(authenticate, newProject);
 
 // Middleware Testing
 router.route("/auth").get(authenticate, authController);

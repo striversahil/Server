@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 interface ProjectInterface {
   name: string;
   details: string;
-  created_by: mongoose.Schema.Types.ObjectId;
-  workspace_id: mongoose.Schema.Types.ObjectId;
-  buckets: mongoose.Schema.Types.ObjectId[];
-  components: mongoose.Schema.Types.ObjectId[]; // Store Components coordinates and Settings for the User
+  created_by: mongoose.Types.ObjectId;
+  workspace_id: mongoose.Types.ObjectId;
+  buckets: mongoose.Types.ObjectId[];
+  components: mongoose.Types.ObjectId[]; // Store Components coordinates and Settings for the User
   createdAt: Date;
   updatedAt: Date;
 }

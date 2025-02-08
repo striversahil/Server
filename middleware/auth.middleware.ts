@@ -46,8 +46,9 @@ export const authenticate = (
     }
 
     const now = new Date();
-    const Expiry_left_in_hours =
-      (decoded.exp * 1000 - now.getTime()) / (60 * 60 * 1000);
+    const Expiry_left_in_hours = Math.floor(
+      (decoded.exp * 1000 - now.getTime()) / (60 * 60 * 1000)
+    );
     // Todo : Check for Expiry Reality
     console.log(Expiry_left_in_hours);
 

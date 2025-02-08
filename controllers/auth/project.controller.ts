@@ -3,6 +3,7 @@ import asyncHandler from "../../helper/asyncHandler";
 import ApiResponse from "../../helper/ApiResponse";
 import { Project } from "../../models/auth/project.model";
 import { Workspace } from "../../models/auth/workspace.model";
+import mongoose from "mongoose";
 
 // Get Project Controller Info
 export const ProjectInfo = asyncHandler(async (req: Request, res: Response) => {
@@ -41,8 +42,6 @@ export const newProject = asyncHandler(async (req: Request, res: Response) => {
       .status(401)
       .json(new ApiResponse(401, {}, "Workspace does not exist Create it"));
   }
-
-  project.workspace_id = workspaceId;
 
   const project = await Project.create({
     user: req.user._id,
