@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 
-const BucketSchema = new mongoose.Schema({
+interface BucketInterface {
+  name: string;
+  files: string[];
+}
+
+const BucketSchema = new mongoose.Schema<BucketInterface>({
   name: {
     type: String,
-    required: true,
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
     required: true,
   },
   files: {
