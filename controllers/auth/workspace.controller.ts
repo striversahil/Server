@@ -11,7 +11,7 @@ const cookie: object = {
   httpOnly: true,
   secure: isProduction,
   sameSite: isProduction ? "none" : "lax",
-  maxAge: 1000 * 60 * 60 * 24 * 2, // 2 days of cookie
+  maxAge: 1000 * 60 * 60 * 24 * 15, // 15 days of cookie
 };
 
 export const WorkSpaceInfo = asyncHandler(
@@ -84,11 +84,60 @@ export const newWorkspace = asyncHandler(
     user.save();
     res.cookie("workspace_id", workspace._id, cookie);
 
-    return res.status(200).json({
-      message: "Welcome to Workspace Routes",
-      workspace: workspace,
-      user: "User Created Successfully 🚀",
-      workspaces: user.workspaces,
-    });
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, workspace, "Workspace Created Successfully 🚀")
+      );
+  }
+);
+
+export const deleteWorkspace = asyncHandler(
+  async (req: Request, res: Response) => {
+    const workspaceId = req.params.workspaceId;
+    if (!workspaceId) {
+      return res
+        .status(401)
+        .json(new ApiResponse(401, {}, "Workspace does not exist Create it"));
+    }
+
+    const workspace = await Workspace.findByIdAndDelete(workspaceId);
+
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res
+        .status(401)
+        .json(
+          new ApiResponse(
+            401,
+            {},
+            "User could not be found \n Redirecting to login..."
+          )
+        );
+    }
+    user.workspaces = user.workspaces.filter(
+      (workspace) => workspace.toString() !== workspaceId
+    );
+    user.save();
+
+    res.clearCookie("workspace_id");
+
+    if (!workspace) {
+      return res
+        .status(500)
+        .json(
+          new ApiResponse(
+            500,
+            {},
+            "Workspace could not be deleted \n Server Error"
+          )
+        );
+    }
+
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, workspace, "Workspace Deleted Successfully 🌋")
+      );
   }
 );
