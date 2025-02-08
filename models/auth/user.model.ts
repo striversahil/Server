@@ -80,6 +80,8 @@ const UserSchema: mongoose.Schema<User> = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Add password as it is there in Controller but before saving to DB we will hash it
+
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   const salt = await bcrypt.genSalt(10);
@@ -88,8 +90,6 @@ UserSchema.pre("save", async function (next) {
 });
 
 UserSchema.methods.isCorrectPassword = async function (password: string) {
-  console.log(password, this.password);
-
   return await bcrypt.compare(password, this.password);
 };
 

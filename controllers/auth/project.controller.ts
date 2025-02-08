@@ -1,3 +1,13 @@
-import ApiResponse from "../../helper/ApiResponse";
-import asyncHandler from "../../helper/asyncHandler";
-import { Request, Response, NextFunction } from "express";
+export * from "./project/deleteProject";
+export * from "./project/newProject";
+export * from "./project/projectInfo";
+
+const isProduction = process.env.NODE_ENV === "production";
+
+export const projectCookie: object = {
+  // creating cookie
+  httpOnly: true,
+  secure: isProduction,
+  sameSite: isProduction ? "none" : "lax",
+  maxAge: 1000 * 60 * 60 * 24 * 15,
+};
