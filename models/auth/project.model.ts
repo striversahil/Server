@@ -3,8 +3,6 @@ import mongoose from "mongoose";
 interface ProjectInterface {
   name: string;
   details: string;
-  created_by: mongoose.Types.ObjectId;
-  workspace_id: mongoose.Types.ObjectId;
   buckets: mongoose.Types.ObjectId[];
   components: mongoose.Types.ObjectId[]; // Store Components coordinates and Settings for the User
   createdAt: Date;
@@ -20,11 +18,6 @@ const ProjectSchema = new mongoose.Schema<ProjectInterface>(
     details: {
       type: String,
       default: "Some details about this project",
-    },
-    workspace_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Workspace",
-      required: true,
     },
     buckets: [
       {

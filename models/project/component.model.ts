@@ -40,4 +40,4 @@ const ComponenentsSchema = new mongoose.Schema<ComponentInterface>({
   },
 });
 
-export const Bucket = mongoose.model("Components", ComponenentsSchema);
+export const Component = mongoose.model("Components", ComponenentsSchema);
