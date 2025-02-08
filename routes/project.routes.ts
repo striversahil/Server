@@ -2,12 +2,12 @@ import { Router } from "express";
 import {
   deleteProject,
   newProject,
-  ProjectInfo,
+  projectInfo,
 } from "../controllers/auth/project.controller";
 
 const router = Router();
 
-router.route("/").get(ProjectInfo);
+router.route("/").get(projectInfo);
 
 router.route("/new").get(newProject);
 
