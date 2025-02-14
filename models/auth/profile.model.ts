@@ -27,46 +27,49 @@ interface Profile {
   socials: Socials[];
 }
 
-const ProfileSchema: mongoose.Schema<Profile> = new mongoose.Schema({
-  name: {
-    firstName: {
-      type: String,
+const ProfileSchema: mongoose.Schema<Profile> = new mongoose.Schema(
+  {
+    name: {
+      firstName: {
+        type: String,
+        required: true,
+      },
+      lastName: {
+        type: String,
+      },
+    },
+    user_id: {
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
     },
-    lastName: {
+    profilePic: {
       type: String,
+      default: "",
+    },
+    bio: {
+      type: String,
+      default: "",
+    },
+    location: {
+      type: String,
+      default: "",
+    },
+    socials: {
+      type: [
+        {
+          source: {
+            type: String,
+            enum: Object.values(SocialsSource),
+          },
+          url: {
+            type: String,
+          },
+        },
+      ],
+      default: [],
     },
   },
-  user_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-  },
-  profilePic: {
-    type: String,
-    default: "",
-  },
-  bio: {
-    type: String,
-    default: "",
-  },
-  location: {
-    type: String,
-    default: "",
-  },
-  socials: {
-    type: [
-      {
-        source: {
-          type: String,
-          enum: Object.values(SocialsSource),
-        },
-        url: {
-          type: String,
-        },
-      },
-    ],
-    default: [],
-  },
-});
+  { timestamps: true }
+);
 
 export const Profile = mongoose.model("Profile", ProfileSchema);

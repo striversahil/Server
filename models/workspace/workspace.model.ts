@@ -10,7 +10,7 @@ interface Member {
   role: Role;
 }
 
-type WorkspaceInterface = {
+export type WorkspaceInterface = {
   name: string;
   user: mongoose.Schema.Types.ObjectId;
   private: boolean;

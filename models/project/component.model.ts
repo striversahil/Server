@@ -12,32 +12,37 @@ export interface ComponentInterface {
   coordinates: Coordinates[];
 }
 
-const ComponenentsSchema = new mongoose.Schema<ComponentInterface>({
-  name: {
-    type: String,
-    required: true,
-  },
-  coordinates: [
-    {
-      x: {
-        type: Number,
-        required: true,
-      },
-      y: {
-        type: Number,
-        required: true,
-      },
-      default: [0, 0],
+const ComponenentsSchema = new mongoose.Schema<ComponentInterface>(
+  {
+    name: {
+      type: String,
+      required: true,
     },
-  ],
-  payload: {
-    type: Object,
-    required: true,
+    coordinates: [
+      {
+        x: {
+          type: Number,
+          required: true,
+        },
+        y: {
+          type: Number,
+          required: true,
+        },
+        default: [0, 0],
+      },
+    ],
+    payload: {
+      type: Object,
+      required: true,
+    },
+    configuration: {
+      type: Object,
+      required: true,
+    },
   },
-  configuration: {
-    type: Object,
-    required: true,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 export const Component = mongoose.model("Component", ComponenentsSchema);

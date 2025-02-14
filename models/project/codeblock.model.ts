@@ -32,16 +32,19 @@ export type CodeBlockSchema = {
   steps: CodeType[];
 };
 
-const CodeBlockSchema = new mongoose.Schema<CodeBlockSchema>({
-  name: {
-    type: String,
-    required: true,
-    default: "Untitled Code Block",
+const CodeBlockSchema = new mongoose.Schema<CodeBlockSchema>(
+  {
+    name: {
+      type: String,
+      required: true,
+      default: "Untitled Code Block",
+    },
+    steps: {
+      type: [CodeSchema],
+      required: true,
+    },
   },
-  steps: {
-    type: [CodeSchema],
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
 export const CodeBlock = mongoose.model("CodeBlock", CodeBlockSchema);
