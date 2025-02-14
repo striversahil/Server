@@ -5,7 +5,7 @@ interface Coordinates {
   y: number;
 }
 
-interface ComponentInterface {
+export interface ComponentInterface {
   name: string;
   payload: object; // Here my Component Payload i.e. Data will Come
   configuration: object; // This will Contain Component Configuration
@@ -40,4 +40,4 @@ const ComponenentsSchema = new mongoose.Schema<ComponentInterface>({
   },
 });
 
-export const Component = mongoose.model("Components", ComponenentsSchema);
+export const Component = mongoose.model("Component", ComponenentsSchema);

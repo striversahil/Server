@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import asyncHandler from "../../../helper/asyncHandler";
 import ApiResponse from "../../../helper/ApiResponse";
+import CodeBlockService from "@/service/codeblock.service";
 
 export const newCodeBlock = asyncHandler(
   async (req: Request, res: Response) => {
@@ -16,13 +17,19 @@ export const newCodeBlock = asyncHandler(
           )
         );
     }
-    const project = await Project.findById(projectId);
+    const project = CodeBlockService.createCodeBlock(projectId);
     if (!project) {
       return res
-        .status(401)
+        .status(500)
         .json(
-          new ApiResponse(401, {}, "Project could not be found try Create it")
+          new ApiResponse(
+            500,
+            {},
+            "Project could not be created \n Server Error"
+          )
         );
     }
+
+    return res.status(200).json(new ApiResponse(200, project, "Success"));
   }
 );

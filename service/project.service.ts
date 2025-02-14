@@ -1,7 +1,7 @@
 import { Project as ProjectModel } from "../models/project/project.model";
 
 class Project {
-  static newProject() {
+  static async create() {
     try {
       const project = new ProjectModel();
       return project.save();
