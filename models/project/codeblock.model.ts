@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-interface CodeType {
+export interface CodeType {
   name: string;
   Code: string;
   language: string;
@@ -27,7 +27,7 @@ const CodeSchema = new mongoose.Schema<CodeType>({
   },
 });
 
-type CodeBlockSchema = {
+export type CodeBlockSchema = {
   name: string;
   steps: CodeType[];
 };
