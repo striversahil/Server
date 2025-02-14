@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Workspace } from "../../../models/auth/workspace.model";
+import { Workspace } from "../../../models/workspace/workspace.model";
 import { User } from "../../../models/auth/user.model";
 import ApiResponse from "../../../helper/ApiResponse";
 import asyncHandler from "../../../helper/asyncHandler";

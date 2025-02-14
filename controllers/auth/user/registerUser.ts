@@ -2,11 +2,8 @@ import ApiResponse from "../../../helper/ApiResponse";
 import asyncHandler from "../../../helper/asyncHandler";
 import { User } from "../../../models/auth/user.model";
 import { Request, Response, NextFunction } from "express";
-import {
-  generateAccessRefreshToken,
-  Usercookie,
-  UserType,
-} from "../user.controller";
+import generateAccessRefreshToken from "../../../utils/generateAccessRefreshToken";
+import { Usercookie, UserType } from "../user.controller";
 
 export const registerUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {

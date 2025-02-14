@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import asyncHandler from "../../../helper/asyncHandler";
 import ApiResponse from "../../../helper/ApiResponse";
 import { Component } from "../../../models/project/component.model";
-import { Project } from "../../../models/auth/project.model";
+import { Project } from "../../../models/project/project.model";
 
 // Will Be Post Request as require Component Configurations
 

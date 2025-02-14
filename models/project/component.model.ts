@@ -7,7 +7,7 @@ interface Coordinates {
 
 interface ComponentInterface {
   name: string;
-  payload: object; // Here my Component Metadata will Come
+  payload: object; // Here my Component Payload i.e. Data will Come
   configuration: object; // This will Contain Component Configuration
   coordinates: Coordinates[];
 }

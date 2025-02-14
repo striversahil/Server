@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import asyncHandler from "../../../helper/asyncHandler";
 import ApiResponse from "../../../helper/ApiResponse";
-import { Project } from "../../../models/auth/project.model";
-import { Workspace } from "../../../models/auth/workspace.model";
+import { Project } from "../../../models/project/project.model";
+import { Workspace } from "../../../models/workspace/workspace.model";
 import { workspaceCookie } from "../workspace.controller";
 
 export const deleteProject = asyncHandler(

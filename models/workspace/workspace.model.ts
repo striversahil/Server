@@ -15,6 +15,7 @@ type WorkspaceInterface = {
   user: mongoose.Schema.Types.ObjectId;
   private: boolean;
   members: Member[];
+  buckets: mongoose.Types.ObjectId[]; // User Added Data from Sources
   projects: mongoose.Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
@@ -35,6 +36,13 @@ const WorkspaceSchema = new mongoose.Schema<WorkspaceInterface>(
       type: Boolean,
       default: false,
     },
+    buckets: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Bucket",
+        required: true,
+      },
+    ],
     projects: [
       {
         type: mongoose.Schema.Types.ObjectId,
