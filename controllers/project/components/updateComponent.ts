@@ -29,7 +29,7 @@ export const updateComponent = asyncHandler(
     const component = await Component.findByIdAndUpdate(
       componentId,
       { name: name, payload: payload, configuration: configuration },
-      { new: true }
+      { new: true } //It returns the updated/new document
     );
     if (!component) {
       return res
