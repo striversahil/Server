@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 interface ProjectInterface {
   name: string;
   details: string;
-  buckets: mongoose.Types.ObjectId[];
+  codeBlocks: mongoose.Types.ObjectId[];
   components: mongoose.Types.ObjectId[]; // Store Components coordinates and Settings for the User
   createdAt: Date;
   updatedAt: Date;
@@ -13,25 +13,22 @@ const ProjectSchema = new mongoose.Schema<ProjectInterface>(
   {
     name: {
       type: String,
-      required: true,
       default: "Untitled Project",
     },
     details: {
       type: String,
       default: "Some details about this project",
     },
-    buckets: [
+    codeBlocks: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Bucket",
-        required: true,
+        ref: "CodeBlock",
       },
     ],
     components: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Component",
-        required: true,
       },
     ],
   },

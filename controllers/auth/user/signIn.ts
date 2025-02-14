@@ -2,11 +2,9 @@ import ApiResponse from "../../../helper/ApiResponse";
 import asyncHandler from "../../../helper/asyncHandler";
 import { User } from "../../../models/auth/user.model";
 import { Request, Response } from "express";
-import {
-  generateAccessRefreshToken,
-  Usercookie,
-  UserType,
-} from "../user.controller";
+
+import generateAccessRefreshToken from "../../../utils/generateAccessRefreshToken";
+import { Usercookie, UserType } from "../user.controller";
 
 export const signIN = asyncHandler(async (req: Request, res: Response) => {
   const { email, password }: UserType = req.body;

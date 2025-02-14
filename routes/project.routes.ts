@@ -3,7 +3,7 @@ import {
   deleteProject,
   newProject,
   projectInfo,
-} from "../controllers/auth/project.controller";
+} from "../controllers/project/project.controller";
 
 const router = Router();
 
