@@ -1,7 +1,15 @@
 import { User } from "../models/auth/user.model";
 
 class UserService {
-  static async getUser(email: string): Promise<any> {
+  static async getUser(userId: string): Promise<any> {
+    try {
+      return await User.findById(userId);
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
+  static async getUserByEmail(email: string): Promise<any> {
     try {
       return await User.findOne({ email });
     } catch (error) {

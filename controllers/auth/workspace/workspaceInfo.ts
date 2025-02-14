@@ -4,6 +4,7 @@ import { User } from "../../../models/auth/user.model";
 import ApiResponse from "../../../helper/ApiResponse";
 import asyncHandler from "../../../helper/asyncHandler";
 import { workspaceCookie } from "../workspace.controller";
+import WorkspaceService from "../../../service/workspace.service";
 
 export const WorkSpaceInfo = asyncHandler(
   async (req: Request, res: Response) => {
@@ -15,7 +16,7 @@ export const WorkSpaceInfo = asyncHandler(
         .json(new ApiResponse(401, {}, "Redirecting to login..."));
     }
 
-    const workspace = await Workspace.findOne({ _id: WorkspaceId });
+    const workspace = await WorkspaceService.getWorkspace(WorkspaceId);
 
     if (!workspace) {
       return res
