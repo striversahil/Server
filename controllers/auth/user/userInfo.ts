@@ -3,6 +3,7 @@ import asyncHandler from "../../../helper/asyncHandler";
 import { User } from "../../../models/auth/user.model";
 import { Request, Response, NextFunction } from "express";
 import { workspaceCookie } from "../workspace.controller";
+import UserService from "../../../service/user.service";
 
 export const UserInfo = asyncHandler(async (req: Request, res: Response) => {
   const token = req.user;
@@ -14,7 +15,7 @@ export const UserInfo = asyncHandler(async (req: Request, res: Response) => {
       );
   }
 
-  const user = await User.findOne({ _id: token._id });
+  const user = await UserService.getUser(req.user._id);
 
   // Todo : Just for short time to get the workspace id after remove it
   res.cookie("workspace_id", user?.workspaces[0], workspaceCookie);

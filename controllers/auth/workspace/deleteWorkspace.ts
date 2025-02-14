@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { Workspace } from "../../../models/auth/workspace.model";
-import { User } from "../../../models/auth/user.model";
 import ApiResponse from "../../../helper/ApiResponse";
 import asyncHandler from "../../../helper/asyncHandler";
 import { workspaceCookie } from "../workspace.controller";
+import WorkspaceService from "../../../service/workspace.service";
+import UserService from "../../../service/user.service";
 
 export const deleteWorkspace = asyncHandler(
   async (req: Request, res: Response) => {
@@ -14,9 +14,21 @@ export const deleteWorkspace = asyncHandler(
         .json(new ApiResponse(401, {}, "Workspace does not exist Create it"));
     }
 
-    const workspace = await Workspace.findByIdAndDelete(workspaceId);
+    const workspace = await WorkspaceService.deleteWorkspace(workspaceId);
 
-    const user = await User.findById(req.user._id);
+    if (!workspace) {
+      return res
+        .status(500)
+        .json(
+          new ApiResponse(
+            500,
+            {},
+            "Workspace could not be deleted \n Server Error"
+          )
+        );
+    }
+
+    const user = await UserService.getUser(req.user._id);
     if (!user) {
       return res
         .status(401)
@@ -29,7 +41,7 @@ export const deleteWorkspace = asyncHandler(
         );
     }
     user.workspaces = user.workspaces.filter(
-      (workspace) => workspace.toString() !== workspaceId
+      (workspace: string) => workspace.toString() !== workspaceId
     );
     user.save();
 
