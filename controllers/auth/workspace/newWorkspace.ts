@@ -15,7 +15,7 @@ export const newWorkspace = asyncHandler(
         .json(new ApiResponse(400, {}, "User is not authenticated"));
     }
 
-    const workspace = await WorkspaceService.create(req.body.name);
+    const workspace = await WorkspaceService.create(req.user._id);
 
     if (!workspace) {
       return res
@@ -28,8 +28,6 @@ export const newWorkspace = asyncHandler(
           )
         );
     }
-
-    const user = await UserService.getUser(req.user._id);
     res.cookie("workspace_id", workspace, workspaceCookie);
 
     return res

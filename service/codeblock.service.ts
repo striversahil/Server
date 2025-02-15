@@ -2,8 +2,8 @@
  * CodeBlock Service : It will Assume that You have done all the Validation Checks
  */
 
-import { CodeBlock, CodeBlockSchema } from "@/models/project/codeblock.model";
-import { Project } from "@/models/project/project.model";
+import { CodeBlock, CodeBlockSchema } from "../models/project/codeblock.model";
+import { Project } from "../models/project/project.model";
 
 class CodeBlockService {
   static async getAll(project_id: string): Promise<CodeBlockSchema[]> {

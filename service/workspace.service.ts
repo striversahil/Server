@@ -2,7 +2,7 @@
  * Workspace Service : It will Assume that You have done all the Validation Checks
  */
 
-import { User } from "@/models/auth/user.model";
+import { User } from "../models/auth/user.model";
 import {
   Workspace,
   WorkspaceInterface,
@@ -14,7 +14,13 @@ class WorkspaceService {
      * (Get Workspace By Id) Return : Workspace Object Containing Workspace Details
      */
     try {
-      return await Workspace.findById(workspaceId);
+      return await Workspace.findById(workspaceId).populate(
+        {
+          path: "user",
+          match: { _id: { $exists: true } },
+        },
+        { path: "projects", match: { _id: { $exists: true } } }
+      );
     } catch (error) {
       throw new Error(error as string);
     }

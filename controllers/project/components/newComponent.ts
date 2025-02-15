@@ -3,6 +3,7 @@ import asyncHandler from "../../../helper/asyncHandler";
 import ApiResponse from "../../../helper/ApiResponse";
 import { Component } from "../../../models/project/component.model";
 import { Project } from "../../../models/project/project.model";
+import ComponentService from "../../../service/component.service";
 
 // Will Be Post Request as require Component Configurations
 
@@ -31,11 +32,13 @@ export const newComponent = asyncHandler(
         );
     }
 
-    const component = await Component.create({
-      name: name,
-      payload: payload,
-      configuration: configuration,
-    });
+    const component = await ComponentService.create(
+      projectId as string,
+      name,
+      [],
+      payload,
+      configuration
+    );
     if (!component) {
       return res
         .status(500)
@@ -47,21 +50,6 @@ export const newComponent = asyncHandler(
           )
         );
     }
-
-    const project = await Project.findById(projectId);
-    if (!project) {
-      return res
-        .status(400)
-        .json(
-          new ApiResponse(
-            400,
-            {},
-            "Project does not exist , Try Create it First"
-          )
-        );
-    }
-    project.components.push(component._id);
-    project.save();
 
     return res
       .status(200)

@@ -4,7 +4,7 @@ import { User } from "../../../models/auth/user.model";
 import { Request, Response, NextFunction } from "express";
 import generateAccessRefreshToken from "../../../utils/generateAccessRefreshToken";
 import { Usercookie, UserType } from "../user.controller";
-import UserService from "@/service/user.service";
+import UserService from "../../../service/user.service";
 
 export const registerUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {

@@ -1,15 +1,10 @@
 import mongoose from "mongoose";
 
-interface Coordinates {
-  x: number;
-  y: number;
-}
-
 export interface ComponentInterface extends mongoose.Document {
   name: string;
   payload: object; // Here my Component Payload i.e. Data will Come
   configuration: object; // This will Contain Component Configuration
-  coordinates: Coordinates[];
+  coordinates: number[];
 }
 
 const ComponenentsSchema = new mongoose.Schema<ComponentInterface>(
@@ -18,19 +13,10 @@ const ComponenentsSchema = new mongoose.Schema<ComponentInterface>(
       type: String,
       required: true,
     },
-    coordinates: [
-      {
-        x: {
-          type: Number,
-          required: true,
-        },
-        y: {
-          type: Number,
-          required: true,
-        },
-        default: [0, 0],
-      },
-    ],
+    coordinates: {
+      type: [Number],
+      required: true,
+    },
     payload: {
       type: Object,
       required: true,

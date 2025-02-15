@@ -5,8 +5,8 @@
 import {
   Component,
   ComponentInterface,
-} from "@/models/project/component.model";
-import { Project } from "@/models/project/project.model";
+} from "../models/project/component.model";
+import { Project } from "../models/project/project.model";
 
 class ComponentService {
   static async getAll(project_id: string): Promise<ComponentInterface[]> {
@@ -29,9 +29,23 @@ class ComponentService {
     }
   }
 
-  static async create(project_id: string): Promise<ComponentInterface> {
+  static async create(
+    project_id: string,
+    name: string,
+    coordinates: number[],
+    payload: any,
+    configuration: any
+  ): Promise<ComponentInterface> {
     try {
-      const newComponent = new Component();
+      const newComponent = new Component(
+        {
+          name: name,
+          coordinates: coordinates,
+          payload: payload,
+          configuration: configuration,
+        },
+        { new: true }
+      );
       await newComponent.save();
       await Project.findByIdAndUpdate(project_id, {
         $push: {

@@ -3,18 +3,25 @@ import asyncHandler from "../../../helper/asyncHandler";
 import ApiResponse from "../../../helper/ApiResponse";
 import { Project } from "../../../models/project/project.model";
 import { Workspace } from "../../../models/workspace/workspace.model";
-import { workspaceCookie } from "../workspace.controller";
+import ProjectService from "../../../service/project.service";
 
 export const deleteProject = asyncHandler(
   async (req: Request, res: Response) => {
     const projectId = req.cookies.project_id;
-    if (!projectId) {
+    const workspaceId = req.cookies.workspace_id;
+    if (!projectId || !workspaceId) {
       return res
         .status(400)
-        .json(new ApiResponse(400, {}, "Project does not exist Create it"));
+        .json(
+          new ApiResponse(
+            400,
+            {},
+            "Project or Workspace does not exist Create it"
+          )
+        );
     }
 
-    const project = await Project.findByIdAndDelete(projectId);
+    const project = await ProjectService.delete(projectId, workspaceId);
 
     if (!project) {
       return res
@@ -28,21 +35,7 @@ export const deleteProject = asyncHandler(
         );
     }
 
-    const workspace = await Workspace.findById(req.cookies.workspace_id);
-    if (!workspace) {
-      return res
-        .status(401)
-        .json(
-          new ApiResponse(401, {}, "Workspace does not exist with this id")
-        );
-    }
-
-    workspace.projects = workspace.projects.filter(
-      (project) => project.toString() !== projectId
-    );
-
     res.clearCookie("project_id");
-    workspace.save();
 
     return res
       .status(200)

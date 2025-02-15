@@ -3,8 +3,8 @@ import asyncHandler from "../../../helper/asyncHandler";
 import ApiResponse from "../../../helper/ApiResponse";
 import { Project } from "../../../models/project/project.model";
 import { Workspace } from "../../../models/workspace/workspace.model";
-import { workspaceCookie } from "@/controllers/auth/workspace.controller";
-import ProjectService from "@/service/project.service";
+import { workspaceCookie } from "../../../controllers/auth/workspace.controller";
+import ProjectService from "../../../service/project.service";
 
 // Get Project Controller Info
 export const projectInfo = asyncHandler(async (req: Request, res: Response) => {

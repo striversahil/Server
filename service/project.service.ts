@@ -1,4 +1,4 @@
-import { Workspace } from "@/models/workspace/workspace.model";
+import { Workspace } from "../models/workspace/workspace.model";
 import { Project, ProjectInterface } from "../models/project/project.model";
 import { Document } from "mongoose";
 
@@ -31,7 +31,12 @@ class ProjectService {
 
   static async getById(id: string): Promise<ProjectInterface | null> {
     try {
-      return await Project.findById(id);
+      const project = await Project.findById(id);
+      if (!project) return null;
+      return project.populate([
+        { path: "codeBlocks", match: { _id: { $exists: true } } },
+        { path: "components", match: { _id: { $exists: true } } },
+      ]);
     } catch (error) {
       throw new Error(error as string);
     }

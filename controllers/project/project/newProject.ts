@@ -4,7 +4,7 @@ import ApiResponse from "../../../helper/ApiResponse";
 import { Project } from "../../../models/project/project.model";
 import { Workspace } from "../../../models/workspace/workspace.model";
 import { workspaceCookie } from "../../auth/workspace.controller";
-import ProjectService from "@/service/project.service";
+import ProjectService from "../../../service/project.service";
 
 // Creation of New Project Controller
 export const newProject = asyncHandler(async (req: Request, res: Response) => {
