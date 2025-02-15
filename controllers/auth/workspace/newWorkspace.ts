@@ -15,7 +15,7 @@ export const newWorkspace = asyncHandler(
         .json(new ApiResponse(400, {}, "User is not authenticated"));
     }
 
-    const workspace = await WorkspaceService.createWorkspace(req.body.name);
+    const workspace = await WorkspaceService.create(req.body.name);
 
     if (!workspace) {
       return res
@@ -29,23 +29,8 @@ export const newWorkspace = asyncHandler(
         );
     }
 
-    workspace.save();
-
     const user = await UserService.getUser(req.user._id);
-    if (!user) {
-      return res
-        .status(401)
-        .json(
-          new ApiResponse(
-            401,
-            {},
-            "User could not be found \n Redirecting to login..."
-          )
-        );
-    }
-    user.workspaces = [...user.workspaces, workspace._id];
-    user.save();
-    res.cookie("workspace_id", workspace._id, workspaceCookie);
+    res.cookie("workspace_id", workspace, workspaceCookie);
 
     return res
       .status(200)

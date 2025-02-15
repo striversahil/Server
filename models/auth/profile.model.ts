@@ -15,7 +15,7 @@ interface Socials {
   url: string;
 }
 
-interface Profile {
+export interface Profile extends mongoose.Document {
   name: {
     firstName: string;
     lastName: string;

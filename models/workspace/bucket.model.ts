@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-interface BucketInterface {
+interface BucketInterface extends mongoose.Document {
   name: string;
   files: string[];
 }

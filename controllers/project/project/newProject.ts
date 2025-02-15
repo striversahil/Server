@@ -4,15 +4,10 @@ import ApiResponse from "../../../helper/ApiResponse";
 import { Project } from "../../../models/project/project.model";
 import { Workspace } from "../../../models/workspace/workspace.model";
 import { workspaceCookie } from "../../auth/workspace.controller";
+import ProjectService from "@/service/project.service";
 
 // Creation of New Project Controller
 export const newProject = asyncHandler(async (req: Request, res: Response) => {
-  if (!req.user) {
-    return res
-      .status(401)
-      .json(new ApiResponse(401, {}, "User is not authenticated"));
-  }
-
   const workspaceId = req.cookies.workspace_id;
   if (!workspaceId) {
     return res
@@ -20,7 +15,7 @@ export const newProject = asyncHandler(async (req: Request, res: Response) => {
       .json(new ApiResponse(401, {}, "Workspace does not exist Create it"));
   }
 
-  const project = await new Project().save();
+  const project = await ProjectService.create(workspaceId);
 
   if (!project) {
     return res
@@ -30,18 +25,7 @@ export const newProject = asyncHandler(async (req: Request, res: Response) => {
       );
   }
 
-  const workspace = await Workspace.findById(workspaceId);
-  if (!workspace) {
-    return res
-      .status(400)
-      .json(new ApiResponse(400, {}, "Workspace does not exist with this id"));
-  }
-
-  workspace.projects.push(project._id);
-
-  await workspace.save();
-
-  res.cookie("project_id", project._id, workspaceCookie);
+  res.cookie("project_id", project, workspaceCookie);
 
   return res
     .status(200)

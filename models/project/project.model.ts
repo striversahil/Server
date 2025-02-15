@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export interface ProjectInterface {
+export interface ProjectInterface extends mongoose.Document {
   name: string;
   details: string;
   codeBlocks: mongoose.Types.ObjectId[];

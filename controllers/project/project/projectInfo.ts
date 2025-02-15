@@ -3,7 +3,8 @@ import asyncHandler from "../../../helper/asyncHandler";
 import ApiResponse from "../../../helper/ApiResponse";
 import { Project } from "../../../models/project/project.model";
 import { Workspace } from "../../../models/workspace/workspace.model";
-import { workspaceCookie } from "../workspace.controller";
+import { workspaceCookie } from "@/controllers/auth/workspace.controller";
+import ProjectService from "@/service/project.service";
 
 // Get Project Controller Info
 export const projectInfo = asyncHandler(async (req: Request, res: Response) => {
@@ -14,7 +15,7 @@ export const projectInfo = asyncHandler(async (req: Request, res: Response) => {
       .json(new ApiResponse(400, {}, "Project does not exist Create it First"));
   }
 
-  const project = await Project.findOne({ _id: ProjectId });
+  const project = await ProjectService.getById(ProjectId);
 
   if (!project) {
     return res

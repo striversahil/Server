@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export interface CodeType {
+export interface CodeType extends mongoose.Document {
   name: string;
   Code: string;
   language: string;

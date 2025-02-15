@@ -10,7 +10,7 @@ interface Member {
   role: Role;
 }
 
-export type WorkspaceInterface = {
+export interface WorkspaceInterface extends mongoose.Document {
   name: string;
   user: mongoose.Schema.Types.ObjectId;
   private: boolean;
@@ -19,7 +19,7 @@ export type WorkspaceInterface = {
   projects: mongoose.Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
-};
+}
 
 const WorkspaceSchema = new mongoose.Schema<WorkspaceInterface>(
   {

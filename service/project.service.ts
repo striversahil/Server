@@ -1,12 +1,13 @@
 import { Workspace } from "@/models/workspace/workspace.model";
 import { Project, ProjectInterface } from "../models/project/project.model";
+import { Document } from "mongoose";
 
 class ProjectService {
   static async create(workspace_id: string): Promise<ProjectInterface | null> {
     try {
       const project = new Project();
-      project.save();
-      const workspace = Workspace.findByIdAndUpdate(workspace_id, {
+      await project.save();
+      const workspace = await Workspace.findByIdAndUpdate(workspace_id, {
         $push: { projects: project._id },
       });
       if (!workspace) return null;
