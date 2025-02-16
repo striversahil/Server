@@ -26,7 +26,7 @@ export const projectInfo = asyncHandler(async (req: Request, res: Response) => {
   }
 
   // Adding this so that everytime user refreshes the page, the cookie is updated
-  res.cookie("project_id", ProjectId, workspaceCookie);
+  res.cookie("project_id", project._id, workspaceCookie);
 
   return res
     .status(200)

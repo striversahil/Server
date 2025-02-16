@@ -9,18 +9,25 @@ import {
 } from "../models/workspace/workspace.model";
 
 class WorkspaceService {
-  static async getWorkspace(workspaceId: string): Promise<any> {
+  static async getWorkspace(
+    workspaceId: string
+  ): Promise<WorkspaceInterface | null> {
     /**
-     * (Get Workspace By Id) Return : Workspace Object Containing Workspace Details
+     * (Get Workspace By Id) Return : Workspace Object Containing Workspace with Populated Details
      */
     try {
-      return await Workspace.findById(workspaceId).populate(
-        {
-          path: "user",
-          match: { _id: { $exists: true } },
-        },
-        { path: "projects", match: { _id: { $exists: true } } }
-      );
+      return await Workspace.findById(workspaceId)
+        .populate("user")
+        .populate([
+          {
+            path: "projects",
+            match: { _id: { $exists: true } },
+          },
+          {
+            path: "members",
+            match: { _id: { $exists: true } },
+          },
+        ]);
     } catch (error) {
       throw new Error(error as string);
     }

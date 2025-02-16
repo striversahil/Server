@@ -26,9 +26,17 @@ class CodeBlockService {
     }
   }
 
-  static async create(project_id: string): Promise<CodeBlockSchema> {
+  static async create(
+    project_id: string,
+    name: string
+  ): Promise<CodeBlockSchema> {
     try {
-      const newCodeBlock = new CodeBlock();
+      const newCodeBlock = new CodeBlock(
+        {
+          name: name,
+        },
+        { new: true }
+      );
       await newCodeBlock.save();
       await Project.findByIdAndUpdate(project_id, {
         $push: {

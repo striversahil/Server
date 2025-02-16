@@ -11,7 +11,7 @@ router.route("/:id").get(getCodeBlock);
 
 router.route("/").post(newCodeBlock);
 
-router.route(":componentId").delete(deleteCodeBlock);
+router.route("/:id").delete(deleteCodeBlock);
 
 // router.route(":componentId").put(updateComponent);
 

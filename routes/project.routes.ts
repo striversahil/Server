@@ -9,8 +9,8 @@ const router = Router();
 
 router.route("/").get(projectInfo);
 
-router.route("/new").get(newProject);
+router.route("/").post(newProject);
 
-router.route("/delete").get(deleteProject);
+router.route("/").delete(deleteProject);
 
 export default router;
