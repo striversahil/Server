@@ -42,6 +42,14 @@ class ProjectService {
     }
   }
 
+  static async updateName(id: string, name: string) {
+    try {
+      return await Project.findByIdAndUpdate(id, { name: name }, { new: true });
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
   static async delete(
     id: string,
     workspace_id: string

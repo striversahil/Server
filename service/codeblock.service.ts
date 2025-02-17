@@ -6,13 +6,12 @@ import { CodeBlock, CodeBlockSchema } from "../models/project/codeblock.model";
 import { Project } from "../models/project/project.model";
 
 class CodeBlockService {
-  static async getAll(project_id: string): Promise<CodeBlockSchema[]> {
+  static async getAll(project_id: string): Promise<any[]> {
     try {
-      const project = await Project.findById(project_id);
+      const project = await Project.findById(project_id).populate("codeBlocks");
       if (!project) return [];
-      return await CodeBlock.find({ _id: { $in: project.codeBlocks } }).sort({
-        createdAt: -1,
-      });
+      // Faced Day long Error Here due to Returning Codeblock.find({ _id: { $in: project.codeBlocks } })
+      return project.codeBlocks;
     } catch (error) {
       throw new Error(error as string);
     }
@@ -31,18 +30,15 @@ class CodeBlockService {
     name: string
   ): Promise<CodeBlockSchema> {
     try {
-      const newCodeBlock = new CodeBlock(
-        {
-          name: name,
-        },
-        { new: true }
-      );
-      await newCodeBlock.save();
+      const newCodeBlock = new CodeBlock({
+        name: name,
+      });
       await Project.findByIdAndUpdate(project_id, {
         $push: {
           codeBlocks: newCodeBlock._id,
         },
       });
+      await newCodeBlock.save();
       return newCodeBlock;
     } catch (error) {
       throw new Error(error as string);
@@ -54,18 +50,22 @@ class CodeBlockService {
   //     return await CodeBlock.findByIdAndUpdate(id, codeBlock);
   //   }
 
+  static async updateName(id: string, name: string) {
+    return await CodeBlock.findByIdAndUpdate(id, { name: name }, { new: true }); // New True : returns updated/new document : used for get new data immediately
+  }
+
   static async delete(
     id: string,
     project_id: string
   ): Promise<CodeBlockSchema | null> {
     try {
-      const codeBlock = await CodeBlock.findByIdAndDelete(id);
-      if (!codeBlock) return null;
       await Project.findByIdAndUpdate(project_id, {
         $pull: {
-          codeBlocks: codeBlock._id,
+          codeBlocks: id,
         },
       });
+      const codeBlock = await CodeBlock.findByIdAndDelete(id);
+      if (!codeBlock) return null;
       return codeBlock;
     } catch (error) {
       throw new Error(error as string);
