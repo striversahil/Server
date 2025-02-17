@@ -16,7 +16,7 @@ router.route("/:id").get(getCodeBlock);
 router.route("/").post(newCodeBlock);
 
 router.route("/:id/name").post(updateCodeBlockName);
-router.route("/:id/step/new").get(addStep);
+router.route("/:id/step/new").post(addStep);
 
 router.route("/:id").delete(deleteCodeBlock);
 

@@ -4,22 +4,21 @@ import ApiResponse from "../../../helper/ApiResponse";
 import CodeBlockService from "../../../service/codeblock.service";
 
 export const addStep = asyncHandler(async (req: Request, res: Response) => {
-  const codeBlockId = req.params.id;
-  const step = {
-    name: "JavaScrip",
-    code: 'console.log("Hello World")',
-    language: "javascript",
-    output: "Hello World",
-  };
-  if (!codeBlockId) {
+  const metadata = req.body.metadata;
+  const slug = req.body.slug;
+  if (!metadata) {
     return res
       .status(400)
       .json(new ApiResponse(400, {}, "CodeBlock Not given with Params..."));
   }
-  if (!step) {
+  if (!slug) {
     return res.status(400).json(new ApiResponse(400, {}, "Step not given"));
   }
-  const codeBlock = await CodeBlockService.addStep(codeBlockId, step);
+  const codeBlock = await CodeBlockService.addStep(
+    metadata._id,
+    metadata.step,
+    slug
+  );
   if (!codeBlock) {
     return res
       .status(500)

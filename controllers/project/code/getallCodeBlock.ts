@@ -18,7 +18,6 @@ export const getAllCodeBlock = asyncHandler(
         );
     }
     const codeBlock = await CodeBlockService.getAll(projectId);
-    console.log(codeBlock);
 
     if (!codeBlock) {
       return res

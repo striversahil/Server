@@ -60,14 +60,16 @@ class CodeBlockService {
 
   static async addStep(
     id: string,
-    step: CodeType
+    step: number,
+    slug: CodeType
   ): Promise<CodeBlockSchema | null> {
     try {
-      const codeBlock = await CodeBlock.findByIdAndUpdate(id, {
-        $push: {
-          steps: step,
-        },
-      });
+      const codeBlock = await CodeBlock.findById(id);
+      const steps = codeBlock?.steps;
+      if (!steps) return null;
+      steps.splice(step, 0, slug);
+      await codeBlock.save();
+      console.log(steps);
       if (!codeBlock) return null;
       return codeBlock;
     } catch (error) {
