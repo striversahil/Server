@@ -1,19 +1,30 @@
 import mongoose from "mongoose";
 
-export interface CodeType extends mongoose.Document {
+export interface CodeType {
   name: string;
-  Code: string;
+  code: string;
   language: string;
   output: string;
 }
 
-const CodeSchema = new mongoose.Schema<CodeType>({
+interface RespnseTpe {
+  type: string; //Synchronous or Streaming
+  event_Handler: string; // Used For Frontend
+}
+
+interface TriggerType {
+  Triggers: [string];
+  Automatic: string; //Set Condition of trigger
+  permission: string;
+}
+
+const CodeSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
     default: "Untitled Code Block",
   },
-  Code: {
+  code: {
     type: String,
     required: true,
   },
@@ -27,10 +38,12 @@ const CodeSchema = new mongoose.Schema<CodeType>({
   },
 });
 
-export type CodeBlockSchema = {
+export interface CodeBlockSchema extends mongoose.Document {
   name: string;
+  // Trigger: TriggerType;
+  // Response: RespnseTpe;
   steps: CodeType[];
-};
+}
 
 const CodeBlockSchema = new mongoose.Schema<CodeBlockSchema>(
   {
@@ -39,6 +52,28 @@ const CodeBlockSchema = new mongoose.Schema<CodeBlockSchema>(
       required: true,
       default: "Untitled Code Block",
     },
+    // Trigger: {
+    //   type: {
+    //     Triggers: [String],
+    //     Automatic: String,
+    //     permission: String,
+    //   },
+    //   default: {
+    //     Triggers: ["Test"],
+    //     Automatic: "Test",
+    //     permission: "Test",
+    //   },
+    // },
+    // Response: {
+    //   type: {
+    //     type: String,
+    //     event_Handler: String,
+    //   },
+    //   default: {
+    //     type: "Test",
+    //     event_Handler: "Test",
+    //   },
+    // },
     steps: {
       type: [CodeSchema],
       required: true,

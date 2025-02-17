@@ -2,7 +2,11 @@
  * CodeBlock Service : It will Assume that You have done all the Validation Checks
  */
 
-import { CodeBlock, CodeBlockSchema } from "../models/project/codeblock.model";
+import {
+  CodeBlock,
+  CodeBlockSchema,
+  CodeType,
+} from "../models/project/codeblock.model";
 import { Project } from "../models/project/project.model";
 
 class CodeBlockService {
@@ -52,6 +56,23 @@ class CodeBlockService {
 
   static async updateName(id: string, name: string) {
     return await CodeBlock.findByIdAndUpdate(id, { name: name }, { new: true }); // New True : returns updated/new document : used for get new data immediately
+  }
+
+  static async addStep(
+    id: string,
+    step: CodeType
+  ): Promise<CodeBlockSchema | null> {
+    try {
+      const codeBlock = await CodeBlock.findByIdAndUpdate(id, {
+        $push: {
+          steps: step,
+        },
+      });
+      if (!codeBlock) return null;
+      return codeBlock;
+    } catch (error) {
+      throw new Error(error as string);
+    }
   }
 
   static async delete(

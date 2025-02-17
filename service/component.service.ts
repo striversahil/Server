@@ -35,7 +35,7 @@ class ComponentService {
     coordinates: number[],
     payload: any,
     configuration: any
-  ): Promise<ComponentInterface> {
+  ): Promise<ComponentInterface | null> {
     try {
       const newComponent = new Component(
         {
@@ -47,11 +47,17 @@ class ComponentService {
         { new: true }
       );
       await newComponent.save();
-      await Project.findByIdAndUpdate(project_id, {
-        $push: {
-          components: newComponent._id,
+      const project = await Project.findByIdAndUpdate(
+        project_id,
+        {
+          $push: {
+            components: newComponent._id,
+          },
         },
-      });
+        { new: true }
+      );
+      if (!project) return null;
+      // this returning project neccesary to confirm that component is added to project
       return newComponent;
     } catch (error) {
       throw new Error(error as string);
