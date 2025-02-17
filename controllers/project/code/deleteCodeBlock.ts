@@ -3,39 +3,35 @@ import asyncHandler from "../../../helper/asyncHandler";
 import ApiResponse from "../../../helper/ApiResponse";
 import CodeBlockService from "../../../service/codeblock.service";
 
-export const newCodeBlock = asyncHandler(
+export const deleteCodeBlock = asyncHandler(
   async (req: Request, res: Response) => {
-    const name = req.body.name;
+    const codeBlockId = req.params.id;
     const projectId = req.cookies.project_id;
-    if (!name) {
-      return res
-        .status(400)
-        .json(new ApiResponse(400, {}, "CodeBlock name not given"));
-    }
-    if (!projectId) {
+    if (!projectId || !codeBlockId) {
       return res
         .status(401)
         .json(
           new ApiResponse(
             401,
             {},
-            "Project does not exist , Try Create it First"
+            "CodeBlock or Project does not exist , Try Create it First"
           )
         );
     }
-    const project = CodeBlockService.create(projectId, name);
-    if (!project) {
+    const codeBlock = await CodeBlockService.delete(codeBlockId, projectId);
+    if (!codeBlock) {
       return res
         .status(500)
         .json(
           new ApiResponse(
             500,
             {},
-            "Project could not be created \n Server Error"
+            "CodeBlock could not be deleted \n Server Error"
           )
         );
     }
-
-    return res.status(200).json(new ApiResponse(200, project, "Success"));
+    return res
+      .status(200)
+      .json(new ApiResponse(200, codeBlock, "CodeBlock Deleted"));
   }
 );

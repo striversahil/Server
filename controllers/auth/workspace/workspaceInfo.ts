@@ -8,7 +8,7 @@ import WorkspaceService from "../../../service/workspace.service";
 
 export const WorkSpaceInfo = asyncHandler(
   async (req: Request, res: Response) => {
-    const WorkspaceId = req.params.workspaceId;
+    const WorkspaceId = req.cookies.workspace_id;
 
     if (!WorkspaceId) {
       return res

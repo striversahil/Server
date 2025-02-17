@@ -10,7 +10,7 @@ const router = Router();
 
 router.route("/").get(getComponents);
 
-router.route("/new").post(newComponent);
+router.route("/new").get(newComponent);
 
 router.route("/delete/:componentId").get(deleteComponent);
 

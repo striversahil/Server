@@ -8,42 +8,17 @@ import UserService from "../../../service/user.service";
 export const deleteWorkspace = asyncHandler(
   async (req: Request, res: Response) => {
     const workspaceId = req.cookies.workspace_id;
+    const userId = req.user._id;
     if (!workspaceId) {
       return res
         .status(401)
         .json(new ApiResponse(401, {}, "Workspace does not exist Create it"));
     }
 
-    const workspace = await WorkspaceService.deleteWorkspace(workspaceId);
-
-    if (!workspace) {
-      return res
-        .status(500)
-        .json(
-          new ApiResponse(
-            500,
-            {},
-            "Workspace could not be deleted \n Server Error"
-          )
-        );
-    }
-
-    const user = await UserService.getUser(req.user._id);
-    if (!user) {
-      return res
-        .status(401)
-        .json(
-          new ApiResponse(
-            401,
-            {},
-            "User could not be found \n Redirecting to login..."
-          )
-        );
-    }
-    user.workspaces = user.workspaces.filter(
-      (workspace: string) => workspace.toString() !== workspaceId
+    const workspace = await WorkspaceService.deleteWorkspace(
+      workspaceId,
+      userId
     );
-    user.save();
 
     res.clearCookie("workspace_id");
 

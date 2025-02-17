@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-interface ProjectInterface {
+export interface ProjectInterface extends mongoose.Document {
   name: string;
   details: string;
   codeBlocks: mongoose.Types.ObjectId[];
@@ -32,9 +32,7 @@ const ProjectSchema = new mongoose.Schema<ProjectInterface>(
       },
     ],
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 export const Project = mongoose.model("Project", ProjectSchema);

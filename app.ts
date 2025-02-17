@@ -9,6 +9,8 @@ import userRoute from "./routes/user.routes";
 import workspaceRoute from "./routes/workspace.routes";
 import projectRoute from "./routes/project.routes";
 import bucketRoute from "./routes/bucket.routes";
+import codeBlockRoute from "./routes/codeBlock.routes";
+import componentRoute from "./routes/component.routes";
 import { authenticate } from "./middleware/auth.middleware";
 // import bodyParser from "body-parser";
 
@@ -27,7 +29,9 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 app.use("/user", userRoute);
 app.use("/workspace", authenticate, workspaceRoute);
 app.use("/project", authenticate, projectRoute);
+app.use("/bucket", authenticate, bucketRoute);
 
-app.use("/project", authenticate, bucketRoute);
+app.use("/codeblock", authenticate, codeBlockRoute);
+app.use("/component", authenticate, componentRoute);
 
 export default httpServer;

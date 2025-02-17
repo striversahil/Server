@@ -4,6 +4,7 @@ import { User } from "../../../models/auth/user.model";
 import { Request, Response, NextFunction } from "express";
 import generateAccessRefreshToken from "../../../utils/generateAccessRefreshToken";
 import { Usercookie, UserType } from "../user.controller";
+import UserService from "../../../service/user.service";
 
 export const registerUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -19,7 +20,7 @@ export const registerUser = asyncHandler(
         );
     }
 
-    const userExists = await User.findOne({ email });
+    const userExists = await UserService.getUserByEmail(email);
     if (userExists) {
       return res
         .status(400)
@@ -36,11 +37,7 @@ export const registerUser = asyncHandler(
 
     // Creating New User
 
-    const newUser = await User.create({
-      name: name as string,
-      email: email as string,
-      password: password as string,
-    });
+    const newUser = await UserService.createUser(name, email, password);
 
     const tokenResponse = await generateAccessRefreshToken(email);
     if (!tokenResponse) {
@@ -82,7 +79,6 @@ export const registerUser = asyncHandler(
         {
           username: name,
           message: "User Created Successfully 🚀",
-          user: password,
         },
         "User Created Successfully 🚀"
       )
