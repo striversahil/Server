@@ -3,23 +3,14 @@ import asyncHandler from "../../../helper/asyncHandler";
 import ApiResponse from "../../../helper/ApiResponse";
 import CodeBlockService from "../../../service/codeblock.service";
 
-export const addStep = asyncHandler(async (req: Request, res: Response) => {
-  const metadata = req.body.metadata;
-  const slug = req.body.slug;
-  if (!metadata) {
+export const deleteStep = asyncHandler(async (req: Request, res: Response) => {
+  const { id: codeBlockId, step } = req.body.metadata;
+  if (!codeBlockId || !step) {
     return res
       .status(400)
       .json(new ApiResponse(400, {}, "CodeBlock Not given with Params..."));
   }
-  if (!slug) {
-    return res.status(400).json(new ApiResponse(400, {}, "Step not given"));
-  }
-
-  const codeBlock = await CodeBlockService.addStep(
-    metadata._id,
-    metadata.step,
-    slug
-  );
+  const codeBlock = await CodeBlockService.deleteStep(codeBlockId, step);
   if (!codeBlock) {
     return res
       .status(500)

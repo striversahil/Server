@@ -65,12 +65,55 @@ class CodeBlockService {
   ): Promise<CodeBlockSchema | null> {
     try {
       const codeBlock = await CodeBlock.findById(id);
-      const steps = codeBlock?.steps;
-      if (!steps) return null;
-      steps.splice(step, 0, slug);
-      await codeBlock.save();
-      console.log(steps);
+
       if (!codeBlock) return null;
+
+      const steps = codeBlock?.steps;
+
+      if (!steps) return null;
+
+      steps.splice(step, 0, slug);
+
+      await codeBlock.save();
+      console.log("Updated CodeBlock", codeBlock);
+      return codeBlock;
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
+  static async duplicateStep(
+    id: string,
+    step: number
+  ): Promise<CodeBlockSchema | null> {
+    try {
+      const codeBlock = await CodeBlock.findById(id);
+      if (!codeBlock) return null;
+      const steps = codeBlock.steps;
+      if (!steps) return null;
+      if (steps[step]) {
+        steps.splice(step, 0, steps[step]);
+      }
+      await codeBlock.save();
+      console.log("Updated CodeBlock", codeBlock);
+      return codeBlock;
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
+  static async deleteStep(
+    id: string,
+    step: number
+  ): Promise<CodeBlockSchema | null> {
+    try {
+      const codeBlock = await CodeBlock.findById(id);
+      if (!codeBlock) return null;
+      const steps = codeBlock.steps;
+      if (!steps) return null;
+      steps.splice(step, 1);
+      await codeBlock.save();
+      console.log("Updated CodeBlock", codeBlock);
       return codeBlock;
     } catch (error) {
       throw new Error(error as string);
