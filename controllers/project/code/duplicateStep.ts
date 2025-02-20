@@ -5,13 +5,13 @@ import CodeBlockService from "../../../service/codeblock.service";
 
 export const duplicateStep = asyncHandler(
   async (req: Request, res: Response) => {
-    const { id: codeBlockId, step } = req.body.metadata;
-    if (!codeBlockId || !step) {
+    const { id, step } = req.body;
+    if (!id || (step !== 0 && !step)) {
       return res
         .status(400)
         .json(new ApiResponse(400, {}, "CodeBlock Not given with Params..."));
     }
-    const codeBlock = await CodeBlockService.duplicateStep(codeBlockId, step);
+    const codeBlock = await CodeBlockService.duplicateStep(id, step);
     if (!codeBlock) {
       return res
         .status(500)

@@ -30,19 +30,28 @@ class CodeBlockService {
   }
 
   static async create(
-    project_id: string,
-    name: string
+    ProjectId: string,
+    metadata: any,
+    payload: any
   ): Promise<CodeBlockSchema> {
     try {
       const newCodeBlock = new CodeBlock({
-        name: name,
+        name: metadata.name,
+        steps: [payload],
       });
-      await Project.findByIdAndUpdate(project_id, {
+      console.log("New CodeBlock", newCodeBlock);
+
+      await Project.findByIdAndUpdate(ProjectId, {
         $push: {
           codeBlocks: newCodeBlock._id,
         },
       });
+      console.log("Updated Project", metadata.id);
+
       await newCodeBlock.save();
+
+      console.log("Updated CodeBlock", newCodeBlock);
+
       return newCodeBlock;
     } catch (error) {
       throw new Error(error as string);
@@ -60,8 +69,8 @@ class CodeBlockService {
 
   static async addStep(
     id: string,
-    step: number,
-    slug: CodeType
+    slug: CodeType,
+    step?: number
   ): Promise<CodeBlockSchema | null> {
     try {
       const codeBlock = await CodeBlock.findById(id);
@@ -71,8 +80,10 @@ class CodeBlockService {
       const steps = codeBlock?.steps;
 
       if (!steps) return null;
-
-      steps.splice(step, 0, slug);
+      if (!step) steps.push(slug);
+      else {
+        steps.splice(step, 0, slug);
+      }
 
       await codeBlock.save();
       console.log("Updated CodeBlock", codeBlock);
