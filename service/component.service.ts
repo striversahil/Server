@@ -6,16 +6,15 @@ import {
   Component,
   ComponentInterface,
 } from "../models/project/component.model";
+import { ProjectInterface } from "../models/project/project.model";
 import { Project } from "../models/project/project.model";
 
 class ComponentService {
-  static async getAll(project_id: string): Promise<ComponentInterface[]> {
+  static async getAll(project_id: string): Promise<ProjectInterface | null> {
     try {
       const project = await Project.findById(project_id);
-      if (!project) return [];
-      return await Component.find({ _id: { $in: project.components } }).sort({
-        createdAt: -1,
-      });
+      if (!project) return null;
+      return Project.findById(project_id).populate("components");
     } catch (error) {
       throw new Error(error as string);
     }
@@ -29,25 +28,43 @@ class ComponentService {
     }
   }
 
+  static async updateComponent(
+    metadata: any,
+    payload: any
+  ): Promise<ComponentInterface | null> {
+    try {
+      const component = await Component.findByIdAndUpdate(
+        metadata._id,
+        {
+          name: metadata.name,
+          coordinates: metadata.coordinates,
+          payload: payload,
+          configuration: metadata.configuration,
+        },
+        { new: true }
+      );
+      return component;
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
   static async create(
     project_id: string,
-    name: string,
-    coordinates: number[],
-    payload: any,
-    configuration: any
+    metadata: any,
+    payload: any
   ): Promise<ComponentInterface | null> {
     try {
       const newComponent = new Component(
         {
-          name: name,
-          coordinates: coordinates,
+          name: metadata.name,
+          coordinates: metadata.coordinates,
           payload: payload,
-          configuration: configuration,
+          configuration: metadata.configuration,
         },
         { new: true }
       );
-      await newComponent.save();
-      const project = await Project.findByIdAndUpdate(
+      await Project.findByIdAndUpdate(
         project_id,
         {
           $push: {
@@ -56,8 +73,7 @@ class ComponentService {
         },
         { new: true }
       );
-      if (!project) return null;
-      // this returning project neccesary to confirm that component is added to project
+      await newComponent.save();
       return newComponent;
     } catch (error) {
       throw new Error(error as string);

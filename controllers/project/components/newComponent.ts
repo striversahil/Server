@@ -23,8 +23,8 @@ export const newComponent = asyncHandler(
         );
     }
 
-    const { name, payload, configuration } = req.body;
-    if (!name || !payload || !configuration) {
+    const { metadata, payload } = req.body;
+    if (!metadata || !payload) {
       return res
         .status(400)
         .json(
@@ -34,10 +34,8 @@ export const newComponent = asyncHandler(
 
     const component = await ComponentService.create(
       projectId as string,
-      name,
-      [],
-      payload,
-      configuration
+      metadata,
+      payload
     );
     if (!component) {
       return res

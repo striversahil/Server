@@ -7,3 +7,5 @@ export * from "./code/addStep";
 
 export * from "./code/duplicateStep";
 export * from "./code/deleteStep";
+
+export * from "./code/updateStep";

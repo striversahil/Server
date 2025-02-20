@@ -39,18 +39,14 @@ class CodeBlockService {
         name: metadata.name,
         steps: [payload],
       });
-      console.log("New CodeBlock", newCodeBlock);
 
       await Project.findByIdAndUpdate(ProjectId, {
         $push: {
           codeBlocks: newCodeBlock._id,
         },
       });
-      console.log("Updated Project", metadata.id);
 
       await newCodeBlock.save();
-
-      console.log("Updated CodeBlock", newCodeBlock);
 
       return newCodeBlock;
     } catch (error) {
@@ -85,6 +81,25 @@ class CodeBlockService {
         steps.splice(step, 0, slug);
       }
 
+      await codeBlock.save();
+      console.log("Updated CodeBlock", codeBlock);
+      return codeBlock;
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
+  static async updateStep(
+    id: string,
+    step: number,
+    slug: CodeType
+  ): Promise<CodeBlockSchema | null> {
+    try {
+      const codeBlock = await CodeBlock.findById(id);
+      if (!codeBlock) return null;
+      const steps = codeBlock.steps;
+      if (!steps) return null;
+      steps[step] = slug;
       await codeBlock.save();
       console.log("Updated CodeBlock", codeBlock);
       return codeBlock;
