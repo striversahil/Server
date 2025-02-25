@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 export interface ComponentInterface extends mongoose.Document {
   name: string;
+  id: string;
   payload: object; // Here my Component Payload i.e. Data will Come
   configuration: object; // This will Contain Component Configuration
   coordinates: number[];
@@ -10,6 +11,10 @@ export interface ComponentInterface extends mongoose.Document {
 const ComponenentsSchema = new mongoose.Schema<ComponentInterface>(
   {
     name: {
+      type: String,
+      required: true,
+    },
+    id: {
       type: String,
       required: true,
     },
@@ -22,6 +27,7 @@ const ComponenentsSchema = new mongoose.Schema<ComponentInterface>(
       required: true,
     },
     configuration: {
+      // Let Id for Drag and Drop be Stored Here
       type: Object,
       required: true,
     },

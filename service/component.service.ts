@@ -59,6 +59,7 @@ class ComponentService {
         {
           name: metadata.name,
           coordinates: metadata.coordinates,
+          id: metadata.id,
           payload: payload,
           configuration: metadata.configuration,
         },
