@@ -10,11 +10,11 @@ import { ProjectInterface } from "../models/project/project.model";
 import { Project } from "../models/project/project.model";
 
 class ComponentService {
-  static async getAll(project_id: string): Promise<ProjectInterface | null> {
+  static async getAll(project_id: string): Promise<any[] | null> {
     try {
-      const project = await Project.findById(project_id);
+      const project = await Project.findById(project_id).populate("components");
       if (!project) return null;
-      return Project.findById(project_id).populate("components");
+      return project.components || null;
     } catch (error) {
       throw new Error(error as string);
     }
@@ -55,16 +55,13 @@ class ComponentService {
     payload: any
   ): Promise<ComponentInterface | null> {
     try {
-      const newComponent = new Component(
-        {
-          name: metadata.name,
-          coordinates: metadata.coordinates,
-          id: metadata.id,
-          payload: payload,
-          configuration: metadata.configuration,
-        },
-        { new: true }
-      );
+      const newComponent = new Component({
+        name: metadata.name,
+        coordinates: metadata.coordinates,
+        dnd_id: metadata.dnd_id,
+        payload: payload,
+        configuration: metadata.configuration,
+      });
       await Project.findByIdAndUpdate(
         project_id,
         {
