@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 export interface ComponentInterface extends mongoose.Document {
   name: string;
-  dnd_id: string;
   payload: object; // Here my Component Payload i.e. Data will Come
   configuration: object; // This will Contain Component Configuration
   coordinates: {
@@ -14,10 +13,6 @@ export interface ComponentInterface extends mongoose.Document {
 const ComponenentsSchema = new mongoose.Schema<ComponentInterface>(
   {
     name: {
-      type: String,
-      required: true,
-    },
-    dnd_id: {
       type: String,
       required: true,
     },

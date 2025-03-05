@@ -58,7 +58,6 @@ class ComponentService {
       const newComponent = new Component({
         name: metadata.name,
         coordinates: metadata.coordinates,
-        dnd_id: metadata.dnd_id,
         payload: payload,
         configuration: metadata.configuration,
       });

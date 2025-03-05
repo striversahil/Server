@@ -3,7 +3,7 @@ import {
   newCodeBlock,
   getCodeBlock,
   deleteCodeBlock,
-  getAllCodeBlock,
+  getAllCodeBlockName,
   updateCodeBlockName,
   addStep,
   duplicateStep,
@@ -12,7 +12,7 @@ import {
 } from "../controllers/project/codeBlock.controller";
 
 const router = Router();
-router.route("/").get(getAllCodeBlock);
+router.route("/").get(getAllCodeBlockName);
 
 router.route("/:id").get(getCodeBlock);
 

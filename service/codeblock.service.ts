@@ -10,12 +10,15 @@ import {
 import { Project } from "../models/project/project.model";
 
 class CodeBlockService {
-  static async getAll(project_id: string): Promise<any[]> {
+  static async getAllNames(project_id: string): Promise<any[]> {
     try {
       const project = await Project.findById(project_id).populate("codeBlocks");
       if (!project) return [];
       // Faced Day long Error Here due to Returning Codeblock.find({ _id: { $in: project.codeBlocks } })
-      return project.codeBlocks;
+      const getNames = project.codeBlocks.map((codeBlock: any) => {
+        return { name: codeBlock.name, id: codeBlock._id };
+      });
+      return getNames;
     } catch (error) {
       throw new Error(error as string);
     }

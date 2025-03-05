@@ -6,7 +6,9 @@ const connectDB = async () => {
   try {
     if (mongoose.connection.readyState < 1) {
       const connectionInstance = await mongoose.connect(
-        `${process.env.MONGODB_URI as string}/${db_Name as string}?retryWrites=true&w=majority`
+        `${process.env.MONGODB_URI as string}/${
+          db_Name as string
+        }?retryWrites=true&w=majority`
       );
       if (connectionInstance) {
         console.log(
