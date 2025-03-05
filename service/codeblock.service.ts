@@ -10,12 +10,15 @@ import {
 import { Project } from "../models/project/project.model";
 
 class CodeBlockService {
-  static async getAll(project_id: string): Promise<any[]> {
+  static async getAllNames(project_id: string): Promise<any[]> {
     try {
       const project = await Project.findById(project_id).populate("codeBlocks");
       if (!project) return [];
       // Faced Day long Error Here due to Returning Codeblock.find({ _id: { $in: project.codeBlocks } })
-      return project.codeBlocks;
+      const getNames = project.codeBlocks.map((codeBlock: any) => {
+        return { name: codeBlock.name, id: codeBlock._id };
+      });
+      return getNames;
     } catch (error) {
       throw new Error(error as string);
     }
@@ -30,19 +33,24 @@ class CodeBlockService {
   }
 
   static async create(
-    project_id: string,
-    name: string
+    ProjectId: string,
+    metadata: any,
+    payload: any
   ): Promise<CodeBlockSchema> {
     try {
       const newCodeBlock = new CodeBlock({
-        name: name,
+        name: metadata.name,
+        steps: [payload],
       });
-      await Project.findByIdAndUpdate(project_id, {
+
+      await Project.findByIdAndUpdate(ProjectId, {
         $push: {
           codeBlocks: newCodeBlock._id,
         },
       });
+
       await newCodeBlock.save();
+
       return newCodeBlock;
     } catch (error) {
       throw new Error(error as string);
@@ -60,17 +68,81 @@ class CodeBlockService {
 
   static async addStep(
     id: string,
+    slug: CodeType,
+    step?: number
+  ): Promise<CodeBlockSchema | null> {
+    try {
+      const codeBlock = await CodeBlock.findById(id);
+
+      if (!codeBlock) return null;
+
+      const steps = codeBlock?.steps;
+
+      if (!steps) return null;
+      if (!step) steps.push(slug);
+      else {
+        steps.splice(step, 0, slug);
+      }
+
+      await codeBlock.save();
+      console.log("Updated CodeBlock", codeBlock);
+      return codeBlock;
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
+  static async updateStep(
+    id: string,
     step: number,
     slug: CodeType
   ): Promise<CodeBlockSchema | null> {
     try {
       const codeBlock = await CodeBlock.findById(id);
-      const steps = codeBlock?.steps;
-      if (!steps) return null;
-      steps.splice(step, 0, slug);
-      await codeBlock.save();
-      console.log(steps);
       if (!codeBlock) return null;
+      const steps = codeBlock.steps;
+      if (!steps) return null;
+      steps[step] = slug;
+      await codeBlock.save();
+      console.log("Updated CodeBlock", codeBlock);
+      return codeBlock;
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
+  static async duplicateStep(
+    id: string,
+    step: number
+  ): Promise<CodeBlockSchema | null> {
+    try {
+      const codeBlock = await CodeBlock.findById(id);
+      if (!codeBlock) return null;
+      const steps = codeBlock.steps;
+      if (!steps) return null;
+      if (steps[step]) {
+        steps.splice(step, 0, steps[step]);
+      }
+      await codeBlock.save();
+      console.log("Updated CodeBlock", codeBlock);
+      return codeBlock;
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
+  static async deleteStep(
+    id: string,
+    step: number
+  ): Promise<CodeBlockSchema | null> {
+    try {
+      const codeBlock = await CodeBlock.findById(id);
+      if (!codeBlock) return null;
+      const steps = codeBlock.steps;
+      if (!steps) return null;
+      steps.splice(step, 1);
+      await codeBlock.save();
+      console.log("Updated CodeBlock", codeBlock);
       return codeBlock;
     } catch (error) {
       throw new Error(error as string);

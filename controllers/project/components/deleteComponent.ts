@@ -3,10 +3,12 @@ import asyncHandler from "../../../helper/asyncHandler";
 import ApiResponse from "../../../helper/ApiResponse";
 import { Component } from "../../../models/project/component.model";
 import { Project } from "../../../models/project/project.model";
+import ComponentService from "../../../service/component.service";
 
 export const deleteComponent = asyncHandler(
   async (req: Request, res: Response) => {
-    const componentId = req.params.componentId;
+    const projectId = req.cookies.project_id;
+    const { componentId } = req.body;
     if (!componentId) {
       return res
         .status(401)
@@ -19,7 +21,10 @@ export const deleteComponent = asyncHandler(
         );
     }
 
-    const component = await Component.findByIdAndDelete(componentId);
+    const component = await ComponentService.delete(
+      componentId as string,
+      projectId as string
+    );
 
     if (!component) {
       return res
@@ -32,23 +37,6 @@ export const deleteComponent = asyncHandler(
           )
         );
     }
-
-    const project = await Project.findById(req.cookies.project_id);
-    if (!project) {
-      return res
-        .status(401)
-        .json(
-          new ApiResponse(
-            401,
-            {},
-            "Project could not be found \n Redirecting to login..."
-          )
-        );
-    }
-    project.components = project.components.filter(
-      (component) => component.toString() !== componentId
-    );
-    project.save();
 
     return res
       .status(200)

@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import asyncHandler from "../../../helper/asyncHandler";
 import ApiResponse from "../../../helper/ApiResponse";
-import { Component } from "../../../models/project/component.model";
-import { Project } from "../../../models/project/project.model";
+import ComponentService from "../../../service/component.service";
 
 // It will return all the components of the project in Array format so to render in Frontend when User fetches this
 
@@ -20,20 +19,21 @@ export const getComponents = asyncHandler(
           )
         );
     }
-    const project = await Project.findById(projectId);
-    if (!project) {
+    const components = await ComponentService.getAll(projectId as string);
+
+    if (!components) {
       return res
-        .status(401)
+        .status(500)
         .json(
           new ApiResponse(
-            401,
+            500,
             {},
-            "Project could not be found \n Redirecting to login..."
+            "Component could not be created \n Server Error"
           )
         );
     }
     return res
       .status(200)
-      .json(new ApiResponse(200, project.components, "All Components Fetched"));
+      .json(new ApiResponse(200, components, "All Components Fetched"));
   }
 );

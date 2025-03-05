@@ -10,10 +10,10 @@ const router = Router();
 
 router.route("/").get(getComponents);
 
-router.route("/new").get(newComponent);
+router.route("/").post(newComponent);
 
-router.route("/delete/:componentId").get(deleteComponent);
+router.route("/delete").post(deleteComponent);
 
-router.route("/update/:componentId").put(updateComponent);
+router.route("/update/").post(updateComponent);
 
 export default router;
