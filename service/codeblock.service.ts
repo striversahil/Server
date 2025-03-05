@@ -10,7 +10,7 @@ import {
 import { Project } from "../models/project/project.model";
 
 class CodeBlockService {
-  static async getAllNames(project_id: string): Promise<any[]> {
+  static async getAllCodeBlocks(project_id: string): Promise<any[]> {
     try {
       const project = await Project.findById(project_id).populate("codeBlocks");
       if (!project) return [];
@@ -19,6 +19,16 @@ class CodeBlockService {
         return { name: codeBlock.name, id: codeBlock._id };
       });
       return getNames;
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
+  static async getAllSteps(id: string): Promise<any[] | null> {
+    try {
+      const codeBlock = await CodeBlock.findById(id);
+      if (!codeBlock) return null;
+      return codeBlock.steps;
     } catch (error) {
       throw new Error(error as string);
     }

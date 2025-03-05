@@ -5,6 +5,7 @@ import CodeBlockService from "../../../service/codeblock.service";
 
 export const getCodeBlock = asyncHandler(
   async (req: Request, res: Response) => {
+    console.log("Get CodeBlock");
     const codeBlockId = req.params.id;
     const projectId = req.cookies.project_id;
 

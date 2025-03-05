@@ -33,10 +33,11 @@ class ProjectService {
     try {
       const project = await Project.findById(id);
       if (!project) return null;
-      return project.populate([
-        { path: "codeBlocks", match: { _id: { $exists: true } } },
-        { path: "components", match: { _id: { $exists: true } } },
-      ]);
+      return project;
+      // return project.populate([
+      //   { path: "codeBlocks", match: { _id: { $exists: true } } },
+      //   { path: "components", match: { _id: { $exists: true } } },
+      // ]);
     } catch (error) {
       throw new Error(error as string);
     }

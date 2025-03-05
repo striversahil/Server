@@ -3,7 +3,7 @@ import asyncHandler from "../../../helper/asyncHandler";
 import ApiResponse from "../../../helper/ApiResponse";
 import CodeBlockService from "../../../service/codeblock.service";
 
-export const getAllCodeBlockName = asyncHandler(
+export const getAllCodeBlock = asyncHandler(
   async (req: Request, res: Response) => {
     const projectId = req.cookies.project_id;
     if (!projectId) {
@@ -17,7 +17,7 @@ export const getAllCodeBlockName = asyncHandler(
           )
         );
     }
-    const codeBlock = await CodeBlockService.getAllNames(projectId);
+    const codeBlock = await CodeBlockService.getAllCodeBlocks(projectId);
 
     if (!codeBlock) {
       return res
