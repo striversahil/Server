@@ -54,7 +54,6 @@ const CodeBlockSchema = new mongoose.Schema<CodeBlockSchema>(
           ref: "StepBlock",
         },
       ],
-      required: true,
     },
   },
   { timestamps: true }

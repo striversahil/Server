@@ -1,6 +1,6 @@
-import { CodeBlock } from "@/models/project/codeblock.model";
-import { StepBlock, StepBlockType } from "@/models/project/stepblock.model";
-import languageDefault from "@/package/common/defaultLanguageOutput.json";
+import { CodeBlock } from "../models/project/codeblock.model";
+import { StepBlock, StepBlockType } from "../models/project/stepblock.model";
+import languageDefault from "../package/common/defaultLanguageOutput.json";
 
 class StepBlockService {
   static async getAll(codeBlock_id: string): Promise<any[] | null> {
@@ -9,10 +9,12 @@ class StepBlockService {
         "steps"
       );
       if (!codeBlock) return null;
+      console.log(codeBlock);
       const steps = codeBlock.steps.map((step: any) => {
         return {
           name: step.name,
           id: step._id,
+          language: step.language,
         };
       });
       return steps;
@@ -40,17 +42,19 @@ class StepBlockService {
         }
       });
       const newStepBlock = new StepBlock({
-        name: payload?.lang,
+        name: payload?.label,
         code: payload?.code,
         language: payload?.value,
         output: payload?.output,
       });
-      CodeBlock.findByIdAndUpdate(codeBlock_id, {
+
+      await newStepBlock.save();
+
+      await CodeBlock.findByIdAndUpdate(codeBlock_id, {
         $push: {
           steps: newStepBlock._id,
         },
       });
-      await newStepBlock.save();
       return newStepBlock;
     } catch (error) {
       throw new Error(error as string);

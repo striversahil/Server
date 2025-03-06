@@ -4,25 +4,22 @@ import {
   deleteStep,
   duplicate,
   updateCode,
+  getAllSteps,
+  getStepBlock,
 } from "../controllers/project/StepBlock/_stepBlock.controller";
 
 const router = Router();
-router.route("/").get(getAllCodeBlock);
+router.route("/getAll/:id").get(getAllSteps);
 
-router.route("/:id").get(getCodeBlock);
+router.route("/:id").get(getStepBlock);
 
-router.route("/").post(newCodeBlock);
+router.route("/").post(addStep);
 
-router.route("/:id/name").post(updateCodeBlockName);
+// router.route("/name").post(updateCodeBlockName);
 
-router.route("/:id/steps").get(getAllSteps);
-router.route("/step/new").post(addStep);
 router.route("/duplicate").post(duplicate);
-router.route("/step/delete").post(deleteStep);
-router.route("/step/code").post(updateStepCode);
+router.route("/code").post(updateCode);
 
-router.route("/:id").delete(deleteCodeBlock);
-
-// router.route(":componentId").put(updateComponent);
+router.route("/").delete(deleteStep);
 
 export default router;

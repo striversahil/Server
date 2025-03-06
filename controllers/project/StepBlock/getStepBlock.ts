@@ -5,20 +5,23 @@ import StepBlockService from "../../../service/stepblock.service";
 
 export const getStepBlock = asyncHandler(
   async (req: Request, res: Response) => {
-    const { metadata, payload } = req.body;
-    if (!metadata || !payload) {
-      return res
-        .status(400)
-        .json(
-          new ApiResponse(
-            400,
-            {},
-            "Missing Information ! Please Provide Complete Information"
-          )
-        );
-    }
+    const { id } = req.params;
+    // const { metadata, payload } = req.body;
+    // if (!metadata || !payload) {
+    //   return res
+    //     .status(400)
+    //     .json(
+    //       new ApiResponse(
+    //         400,
+    //         {},
+    //         "Missing Information ! Please Provide Complete Information"
+    //       )
+    //     );
+    // }
 
-    const codeBlock = await StepBlockService.getById(metadata._id);
+    console.log("Get Step Block");
+
+    const codeBlock = await StepBlockService.getById(id as string);
     if (!codeBlock) {
       return res
         .status(500)

@@ -4,7 +4,7 @@ import {
   newProject,
   projectInfo,
   updateName,
-} from "../controllers/project/project.controller";
+} from "../controllers/project/project/_project.controller";
 
 const router = Router();
 

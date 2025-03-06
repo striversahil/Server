@@ -5,20 +5,22 @@ import CodeBlockService from "../../../service/codeblock.service";
 
 export const updateCodeBlockName = asyncHandler(
   async (req: Request, res: Response) => {
-    const codeBlockId = req.params.id;
-    const name = req.body.name;
-    console.log(req.body);
-    if (!codeBlockId) {
+    const { metadata, payload } = req.body;
+    if (!metadata || !payload) {
       return res
         .status(400)
-        .json(new ApiResponse(400, {}, "CodeBlock Not given with Params..."));
+        .json(
+          new ApiResponse(
+            400,
+            {},
+            "Missing Information ! Please Provide Complete Information"
+          )
+        );
     }
-    if (!name) {
-      return res
-        .status(400)
-        .json(new ApiResponse(400, {}, "CodeBlock name not given"));
-    }
-    const codeBlock = await CodeBlockService.updateName(codeBlockId, name);
+    const codeBlock = await CodeBlockService.updateName(
+      metadata._id,
+      payload.name
+    );
     if (!codeBlock) {
       return res
         .status(500)

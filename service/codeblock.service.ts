@@ -4,6 +4,7 @@
 
 import { CodeBlock, CodeBlockSchema } from "../models/project/codeblock.model";
 import { Project } from "../models/project/project.model";
+import StepBlockService from "./stepblock.service";
 
 class CodeBlockService {
   static async getAllCodeBlocks(project_id: string): Promise<any[]> {
@@ -30,22 +31,25 @@ class CodeBlockService {
 
   static async create(
     ProjectId: string,
-    metadata: any,
-    payload: any
+    metadata: any
   ): Promise<CodeBlockSchema> {
     try {
       const newCodeBlock = new CodeBlock({
         name: metadata.name,
-        steps: [payload],
       });
+      await newCodeBlock.save();
+
+      console.log(newCodeBlock);
+
+      StepBlockService.create(newCodeBlock._id as string, metadata.language);
+
+      console.log("End here");
 
       await Project.findByIdAndUpdate(ProjectId, {
         $push: {
           codeBlocks: newCodeBlock._id,
         },
       });
-
-      await newCodeBlock.save();
 
       return newCodeBlock;
     } catch (error) {

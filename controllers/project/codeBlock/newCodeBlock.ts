@@ -5,7 +5,6 @@ import CodeBlockService from "../../../service/codeblock.service";
 
 export const newCodeBlock = asyncHandler(
   async (req: Request, res: Response) => {
-    const { metadata, payload } = req.body;
     const projectId = req.cookies.project_id;
     if (!projectId) {
       return res
@@ -18,14 +17,20 @@ export const newCodeBlock = asyncHandler(
           )
         );
     }
-    console.log(req.body);
+    const { metadata } = req.body;
 
-    if (!metadata || !payload) {
+    if (!metadata) {
       return res
         .status(400)
-        .json(new ApiResponse(400, {}, "CodeBlock Information not given"));
+        .json(
+          new ApiResponse(
+            400,
+            {},
+            "Missing Information ! Please Provide Complete Information"
+          )
+        );
     }
-    const project = await CodeBlockService.create(projectId, metadata, payload);
+    const project = await CodeBlockService.create(projectId, metadata);
     if (!project) {
       return res
         .status(500)
