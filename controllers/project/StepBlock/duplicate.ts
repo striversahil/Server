@@ -4,8 +4,8 @@ import ApiResponse from "../../../helper/ApiResponse";
 import StepBlockService from "../../../service/stepblock.service";
 
 export const duplicate = asyncHandler(async (req: Request, res: Response) => {
-  const { metadata, payload } = req.body;
-  if (!metadata || !payload) {
+  const { metadata } = req.body;
+  if (!metadata) {
     return res
       .status(400)
       .json(

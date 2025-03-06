@@ -4,8 +4,8 @@ import ApiResponse from "../../../helper/ApiResponse";
 import StepBlockService from "../../../service/stepblock.service";
 
 export const addStep = asyncHandler(async (req: Request, res: Response) => {
-  const { metadata, payload } = req.body;
-  if (!metadata || !payload) {
+  const { metadata } = req.body;
+  if (!metadata) {
     return res
       .status(400)
       .json(
@@ -18,7 +18,7 @@ export const addStep = asyncHandler(async (req: Request, res: Response) => {
   }
 
   const codeBlock = await StepBlockService.create(
-    metadata._id,
+    metadata.id,
     metadata.language
   );
   if (!codeBlock) {

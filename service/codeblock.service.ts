@@ -39,11 +39,7 @@ class CodeBlockService {
       });
       await newCodeBlock.save();
 
-      console.log(newCodeBlock);
-
       StepBlockService.create(newCodeBlock._id as string, metadata.language);
-
-      console.log("End here");
 
       await Project.findByIdAndUpdate(ProjectId, {
         $push: {

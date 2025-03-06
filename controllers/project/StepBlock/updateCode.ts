@@ -16,6 +16,7 @@ export const updateCode = asyncHandler(async (req: Request, res: Response) => {
         )
       );
   }
+
   const codeBlock = await StepBlockService.codeUpdate(
     metadata._id,
     payload.code

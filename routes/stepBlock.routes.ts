@@ -20,6 +20,6 @@ router.route("/").post(addStep);
 router.route("/duplicate").post(duplicate);
 router.route("/code").post(updateCode);
 
-router.route("/").delete(deleteStep);
+router.route("/delete").post(deleteStep);
 
 export default router;

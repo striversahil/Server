@@ -5,25 +5,32 @@ export interface StepBlockType extends mongoose.Document {
   code: string;
   language: string;
   output: string;
+  stdout: string;
 }
 
-const StepBlockSchema = new mongoose.Schema<StepBlockType>({
-  name: {
-    type: String,
-    required: true,
+const StepBlockSchema = new mongoose.Schema<StepBlockType>(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    code: {
+      type: String,
+      required: true,
+    },
+    language: {
+      type: String,
+      required: true,
+    },
+    output: {
+      type: String,
+      required: true,
+    },
+    stdout: {
+      type: String,
+    },
   },
-  code: {
-    type: String,
-    required: true,
-  },
-  language: {
-    type: String,
-    required: true,
-  },
-  output: {
-    type: String,
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
 export const StepBlock = mongoose.model("StepBlock", StepBlockSchema);
