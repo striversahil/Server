@@ -2,11 +2,7 @@
  * CodeBlock Service : It will Assume that You have done all the Validation Checks
  */
 
-import {
-  CodeBlock,
-  CodeBlockSchema,
-  CodeType,
-} from "../models/project/codeblock.model";
+import { CodeBlock, CodeBlockSchema } from "../models/project/codeblock.model";
 import { Project } from "../models/project/project.model";
 
 class CodeBlockService {
@@ -19,16 +15,6 @@ class CodeBlockService {
         return { name: codeBlock.name, id: codeBlock._id };
       });
       return getNames;
-    } catch (error) {
-      throw new Error(error as string);
-    }
-  }
-
-  static async getAllSteps(id: string): Promise<any[] | null> {
-    try {
-      const codeBlock = await CodeBlock.findById(id);
-      if (!codeBlock) return null;
-      return codeBlock.steps;
     } catch (error) {
       throw new Error(error as string);
     }
@@ -76,51 +62,6 @@ class CodeBlockService {
     return await CodeBlock.findByIdAndUpdate(id, { name: name }, { new: true }); // New True : returns updated/new document : used for get new data immediately
   }
 
-  static async addStep(
-    id: string,
-    slug: CodeType,
-    step?: number
-  ): Promise<CodeBlockSchema | null> {
-    try {
-      const codeBlock = await CodeBlock.findById(id);
-
-      if (!codeBlock) return null;
-
-      const steps = codeBlock?.steps;
-
-      if (!steps) return null;
-      if (!step) steps.push(slug);
-      else {
-        steps.splice(step, 0, slug);
-      }
-
-      await codeBlock.save();
-      console.log("Updated CodeBlock", codeBlock);
-      return codeBlock;
-    } catch (error) {
-      throw new Error(error as string);
-    }
-  }
-
-  static async updateStep(
-    id: string,
-    step: number,
-    slug: CodeType
-  ): Promise<CodeBlockSchema | null> {
-    try {
-      const codeBlock = await CodeBlock.findById(id);
-      if (!codeBlock) return null;
-      const steps = codeBlock.steps;
-      if (!steps) return null;
-      steps[step] = slug;
-      await codeBlock.save();
-      console.log("Updated CodeBlock", codeBlock);
-      return codeBlock;
-    } catch (error) {
-      throw new Error(error as string);
-    }
-  }
-
   static async duplicateStep(
     id: string,
     step: number
@@ -133,24 +74,6 @@ class CodeBlockService {
       if (steps[step]) {
         steps.splice(step, 0, steps[step]);
       }
-      await codeBlock.save();
-      console.log("Updated CodeBlock", codeBlock);
-      return codeBlock;
-    } catch (error) {
-      throw new Error(error as string);
-    }
-  }
-
-  static async deleteStep(
-    id: string,
-    step: number
-  ): Promise<CodeBlockSchema | null> {
-    try {
-      const codeBlock = await CodeBlock.findById(id);
-      if (!codeBlock) return null;
-      const steps = codeBlock.steps;
-      if (!steps) return null;
-      steps.splice(step, 1);
       await codeBlock.save();
       console.log("Updated CodeBlock", codeBlock);
       return codeBlock;

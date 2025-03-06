@@ -1,12 +1,5 @@
 import mongoose from "mongoose";
 
-export interface CodeType {
-  name: string;
-  code: string;
-  language: string;
-  output: string;
-}
-
 interface RespnseTpe {
   type: string; //Synchronous or Streaming
   event_Handler: string; // Used For Frontend
@@ -18,31 +11,11 @@ interface TriggerType {
   permission: string;
 }
 
-const CodeSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    default: "Untitled Code Block",
-  },
-  code: {
-    type: String,
-    required: true,
-  },
-  language: {
-    type: String,
-    required: true,
-  },
-  output: {
-    type: String,
-    required: true,
-  },
-});
-
 export interface CodeBlockSchema extends mongoose.Document {
   name: string;
   // Trigger: TriggerType;
   // Response: RespnseTpe;
-  steps: CodeType[];
+  steps: mongoose.Types.ObjectId[];
 }
 
 const CodeBlockSchema = new mongoose.Schema<CodeBlockSchema>(
@@ -75,7 +48,12 @@ const CodeBlockSchema = new mongoose.Schema<CodeBlockSchema>(
     //   },
     // },
     steps: {
-      type: [CodeSchema],
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "StepBlock",
+        },
+      ],
       required: true,
     },
   },

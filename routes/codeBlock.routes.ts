@@ -10,6 +10,7 @@ import {
   duplicateStep,
   deleteStep,
   updateStep,
+  updateStepCode,
 } from "../controllers/project/codeBlock.controller";
 
 const router = Router();
@@ -26,6 +27,7 @@ router.route("/step/new").post(addStep);
 router.route("/step/duplicate").post(duplicateStep);
 router.route("/step/delete").post(deleteStep);
 router.route("/step/update").post(updateStep);
+router.route("/step/code").post(updateStepCode);
 
 router.route("/:id").delete(deleteCodeBlock);
 

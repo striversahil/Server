@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import asyncHandler from "../../../helper/asyncHandler";
-import ApiResponse from "../../../helper/ApiResponse";
-import CodeBlockService from "../../../service/codeblock.service";
+import asyncHandler from "../../../../helper/asyncHandler";
+import ApiResponse from "../../../../helper/ApiResponse";
+import CodeBlockService from "../../../../service/codeblock.service";
 
 export const updateStep = asyncHandler(async (req: Request, res: Response) => {
   const { metadata, payload } = req.body;
