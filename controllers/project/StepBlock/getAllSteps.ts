@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import asyncHandler from "../../../../helper/asyncHandler";
-import ApiResponse from "../../../../helper/ApiResponse";
-import StepBlockService from "../../../../service/stepblock.service";
+import asyncHandler from "../../../helper/asyncHandler";
+import ApiResponse from "../../../helper/ApiResponse";
+import StepBlockService from "../../../service/stepblock.service";
 
-export const updateStepCode = asyncHandler(
+export const getAllSteps = asyncHandler(async (req: Request, res: Response) => {
   async (req: Request, res: Response) => {
     const { metadata, payload } = req.body;
     if (!metadata || !payload) {
@@ -17,10 +17,7 @@ export const updateStepCode = asyncHandler(
           )
         );
     }
-    const codeBlock = await StepBlockService.codeUpdate(
-      metadata._id,
-      payload.code
-    );
+    const codeBlock = await StepBlockService.getAll(metadata._id);
     if (!codeBlock) {
       return res
         .status(500)
@@ -28,12 +25,10 @@ export const updateStepCode = asyncHandler(
           new ApiResponse(
             500,
             {},
-            "CodeBlock could not be updated \n Server Error"
+            "CodeBlock could not be fetched \n Server Error"
           )
         );
     }
-    return res
-      .status(200)
-      .json(new ApiResponse(200, codeBlock, "CodeBlock Updated Successfully"));
-  }
-);
+    return res.status(200).json(new ApiResponse(200, codeBlock, ""));
+  };
+});

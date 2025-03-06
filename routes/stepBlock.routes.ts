@@ -1,16 +1,10 @@
 import { Router } from "express";
 import {
-  newCodeBlock,
-  getCodeBlock,
-  deleteCodeBlock,
-  getAllCodeBlock,
-  getAllSteps,
-  updateCodeBlockName,
   addStep,
-  duplicateStep,
   deleteStep,
-  updateStepCode,
-} from "../controllers/project/codeBlock/_codeBlock.controller";
+  duplicate,
+  updateCode,
+} from "../controllers/project/StepBlock/_stepBlock.controller";
 
 const router = Router();
 router.route("/").get(getAllCodeBlock);
@@ -23,7 +17,7 @@ router.route("/:id/name").post(updateCodeBlockName);
 
 router.route("/:id/steps").get(getAllSteps);
 router.route("/step/new").post(addStep);
-router.route("/step/duplicate").post(duplicateStep);
+router.route("/duplicate").post(duplicate);
 router.route("/step/delete").post(deleteStep);
 router.route("/step/code").post(updateStepCode);
 

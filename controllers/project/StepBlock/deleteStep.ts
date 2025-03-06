@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import asyncHandler from "../../../../helper/asyncHandler";
-import ApiResponse from "../../../../helper/ApiResponse";
-import StepBlockService from "../../../../service/stepblock.service";
+import asyncHandler from "../../../helper/asyncHandler";
+import ApiResponse from "../../../helper/ApiResponse";
+import StepBlockService from "../../../service/stepblock.service";
 
 export const deleteStep = asyncHandler(async (req: Request, res: Response) => {
   const { metadata, payload } = req.body;

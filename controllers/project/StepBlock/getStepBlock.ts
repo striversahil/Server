@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import asyncHandler from "../../../../helper/asyncHandler";
-import ApiResponse from "../../../../helper/ApiResponse";
-import StepBlockService from "../../../../service/stepblock.service";
+import asyncHandler from "../../../helper/asyncHandler";
+import ApiResponse from "../../../helper/ApiResponse";
+import StepBlockService from "../../../service/stepblock.service";
 
-export const duplicateStep = asyncHandler(
+export const getStepBlock = asyncHandler(
   async (req: Request, res: Response) => {
     const { metadata, payload } = req.body;
     if (!metadata || !payload) {
@@ -17,10 +17,8 @@ export const duplicateStep = asyncHandler(
           )
         );
     }
-    const codeBlock = await StepBlockService.duplicate(
-      metadata.codeBlock_id,
-      metadata.stepBlock_id
-    );
+
+    const codeBlock = await StepBlockService.getById(metadata._id);
     if (!codeBlock) {
       return res
         .status(500)
@@ -32,8 +30,6 @@ export const duplicateStep = asyncHandler(
           )
         );
     }
-    return res
-      .status(200)
-      .json(new ApiResponse(200, codeBlock, "CodeBlock Updated Successfully"));
+    return res.status(200).json(new ApiResponse(200, codeBlock, "Success"));
   }
 );

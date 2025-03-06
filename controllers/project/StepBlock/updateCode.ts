@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import asyncHandler from "../../../../helper/asyncHandler";
-import ApiResponse from "../../../../helper/ApiResponse";
-import StepBlockService from "../../../../service/stepblock.service";
+import asyncHandler from "../../../helper/asyncHandler";
+import ApiResponse from "../../../helper/ApiResponse";
+import StepBlockService from "../../../service/stepblock.service";
 
-export const addStep = asyncHandler(async (req: Request, res: Response) => {
+export const updateCode = asyncHandler(async (req: Request, res: Response) => {
   const { metadata, payload } = req.body;
   if (!metadata || !payload) {
     return res
@@ -16,10 +16,9 @@ export const addStep = asyncHandler(async (req: Request, res: Response) => {
         )
       );
   }
-
-  const codeBlock = await StepBlockService.create(
+  const codeBlock = await StepBlockService.codeUpdate(
     metadata._id,
-    payload.language
+    payload.code
   );
   if (!codeBlock) {
     return res

@@ -10,6 +10,7 @@ import workspaceRoute from "./routes/workspace.routes";
 import projectRoute from "./routes/project.routes";
 import bucketRoute from "./routes/bucket.routes";
 import codeBlockRoute from "./routes/codeBlock.routes";
+import stepBlockRoute from "./routes/stepBlock.routes";
 import componentRoute from "./routes/component.routes";
 import { authenticate } from "./middleware/auth.middleware";
 // import bodyParser from "body-parser";
@@ -32,6 +33,7 @@ app.use("/project", authenticate, projectRoute);
 app.use("/bucket", authenticate, bucketRoute);
 
 app.use("/codeblock", authenticate, codeBlockRoute);
+app.use("/stepblock", authenticate, stepBlockRoute);
 app.use("/component", authenticate, componentRoute);
 
 export default httpServer;
