@@ -1,7 +1,7 @@
 [
   {
     "value": "python",
-    "label": "Python",
+    "lang": "Python",
     "code": "print('Hello World')",
     "output": "Hello World"
   },

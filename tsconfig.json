@@ -2,7 +2,12 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "declaration": true,
-    "paths": {},
+    "paths": {
+      "@/package/*": ["./package/*"],
+      "@/service/*": ["./service/*"],
+      "@/routes/*": ["./routes/*"],
+      "@/models/*": ["./models/*"]
+    },
     "declarationMap": true,
     "emitDeclarationOnly": true,
     "jsx": "react-jsx",

@@ -1,17 +1,26 @@
 import { Request, Response } from "express";
 import asyncHandler from "../../../../helper/asyncHandler";
 import ApiResponse from "../../../../helper/ApiResponse";
-import CodeBlockService from "../../../../service/codeblock.service";
+import StepBlockService from "../../../../service/stepblock.service";
 
 export const duplicateStep = asyncHandler(
   async (req: Request, res: Response) => {
-    const { id, step } = req.body;
-    if (!id || (step !== 0 && !step)) {
+    const { metadata, payload } = req.body;
+    if (!metadata || !payload) {
       return res
         .status(400)
-        .json(new ApiResponse(400, {}, "CodeBlock Not given with Params..."));
+        .json(
+          new ApiResponse(
+            400,
+            {},
+            "Missing Information ! Please Provide Complete Information"
+          )
+        );
     }
-    const codeBlock = await CodeBlockService.duplicateStep(id, step);
+    const codeBlock = await StepBlockService.duplicate(
+      metadata.codeBlock_id,
+      metadata.stepBlock_id
+    );
     if (!codeBlock) {
       return res
         .status(500)
