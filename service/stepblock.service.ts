@@ -35,7 +35,8 @@ class StepBlockService {
 
   static async create(
     codeBlock_id: string,
-    language: string
+    language: string,
+    step_id?: string
   ): Promise<StepBlockType | null> {
     try {
       const payload = languageDefault.find((item: any) => {
@@ -53,18 +54,29 @@ class StepBlockService {
 
       await newStepBlock.save();
 
-      const codeBlock = await CodeBlock.findByIdAndUpdate(
-        codeBlock_id,
-        {
-          $push: {
-            steps: newStepBlock._id as string,
+      if (step_id) {
+        const codeBlock = await CodeBlock.findById(codeBlock_id);
+        codeBlock?.steps.splice(
+          codeBlock.steps.indexOf(step_id as any) + 1,
+          0,
+          newStepBlock._id as any
+        );
+        if (!codeBlock) return null;
+        await codeBlock.save();
+      } else {
+        const codeBlock = await CodeBlock.findByIdAndUpdate(
+          codeBlock_id,
+          {
+            $push: {
+              steps: newStepBlock._id as string,
+            },
           },
-        },
-        { new: true }
-      );
-      if (!codeBlock) return null;
-      await codeBlock.save();
-      console.log("CodeBlock is thsi ", codeBlock, newStepBlock);
+          { new: true }
+        );
+        if (!codeBlock) return null;
+        await codeBlock.save();
+      }
+
       return newStepBlock;
     } catch (error) {
       throw new Error(error as string);

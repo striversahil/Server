@@ -19,7 +19,8 @@ export const addStep = asyncHandler(async (req: Request, res: Response) => {
 
   const codeBlock = await StepBlockService.create(
     metadata.id,
-    metadata.language
+    metadata.language,
+    metadata.step_id
   );
   if (!codeBlock) {
     return res
