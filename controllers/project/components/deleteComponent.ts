@@ -3,7 +3,7 @@ import asyncHandler from "../../../helper/asyncHandler";
 import ApiResponse from "../../../helper/ApiResponse";
 import { Component } from "../../../models/project/component.model";
 import { Project } from "../../../models/project/project.model";
-import ComponentService from "../../../service/component.service";
+import ComponentService from "../../../service/EditorZone/component.service";
 
 export const deleteComponent = asyncHandler(
   async (req: Request, res: Response) => {

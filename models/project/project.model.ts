@@ -5,8 +5,8 @@ export interface ProjectInterface extends mongoose.Document {
   details: string;
   codeBlocks: mongoose.Types.ObjectId[];
   sections: mongoose.Types.ObjectId[];
-  columns: mongoose.Types.ObjectId[];
-  components: mongoose.Types.ObjectId[]; // Store Components coordinates and Settings for the User
+  // columns: mongoose.Types.ObjectId[];
+  // components: mongoose.Types.ObjectId[]; // Store Components coordinates and Settings for the User
   createdAt: Date;
   updatedAt: Date;
 }
@@ -21,6 +21,7 @@ const ProjectSchema = new mongoose.Schema<ProjectInterface>(
       type: String,
       default: "Some details about this project",
     },
+
     codeBlocks: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -31,18 +32,6 @@ const ProjectSchema = new mongoose.Schema<ProjectInterface>(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Section",
-      },
-    ],
-    columns: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Column",
-      },
-    ],
-    components: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Component",
       },
     ],
   },
