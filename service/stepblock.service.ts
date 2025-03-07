@@ -1,23 +1,25 @@
-import { CodeBlock } from "../models/project/codeblock.model";
+import { CodeBlock, CodeBlockSchema } from "../models/project/codeblock.model";
 import { StepBlock, StepBlockType } from "../models/project/stepblock.model";
 import languageDefault from "../package/common/defaultLanguageOutput.json";
 
 class StepBlockService {
-  static async getAll(codeBlock_id: string): Promise<any[] | null> {
+  static async getAll(codeBlock_id: string): Promise<any | null> {
     try {
       const codeBlock = await CodeBlock.findById(codeBlock_id).populate(
-        "steps"
+        "steps",
+        "_id name language"
       );
-      if (!codeBlock) return null;
-      console.log(codeBlock);
-      const steps = codeBlock.steps.map((step: any) => {
-        return {
-          name: step.name,
-          id: step._id,
-          language: step.language,
-        };
-      });
-      return steps;
+      return codeBlock;
+      // const Steps = codeBlock.steps.map((step: any) => {
+      //   return {
+      //     name: step.name,
+      //     id: step._id,
+      //     language: step.language,
+      //   };
+      // });
+      // const codeblock: any = codeBlock;
+      // codeblock.steps = Steps;
+      // console.log("CodeBlock is thsi ", codeblock, Steps);
     } catch (error) {
       throw new Error(error as string);
     }

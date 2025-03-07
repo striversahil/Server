@@ -18,6 +18,4 @@ router.route("/name").post(updateCodeBlockName);
 
 router.route("/:id").delete(deleteCodeBlock);
 
-// router.route(":componentId").put(updateComponent);
-
 export default router;
