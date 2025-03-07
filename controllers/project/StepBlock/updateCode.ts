@@ -1,22 +1,25 @@
 import { Request, Response } from "express";
 import asyncHandler from "../../../helper/asyncHandler";
 import ApiResponse from "../../../helper/ApiResponse";
-import CodeBlockService from "../../../service/codeblock.service";
+import StepBlockService from "../../../service/stepblock.service";
 
-export const updateStep = asyncHandler(async (req: Request, res: Response) => {
+export const updateCode = asyncHandler(async (req: Request, res: Response) => {
   const { metadata, payload } = req.body;
-  if (!metadata) {
+  if (!metadata || !payload) {
     return res
       .status(400)
-      .json(new ApiResponse(400, {}, "CodeBlock Not given with Params..."));
+      .json(
+        new ApiResponse(
+          400,
+          {},
+          "Missing Information ! Please Provide Complete Information"
+        )
+      );
   }
-  if (!payload) {
-    return res.status(400).json(new ApiResponse(400, {}, "Step not given"));
-  }
-  const codeBlock = await CodeBlockService.updateStep(
+
+  const codeBlock = await StepBlockService.codeUpdate(
     metadata._id,
-    metadata.step,
-    payload
+    payload.code
   );
   if (!codeBlock) {
     return res

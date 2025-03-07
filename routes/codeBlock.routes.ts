@@ -3,29 +3,19 @@ import {
   newCodeBlock,
   getCodeBlock,
   deleteCodeBlock,
-  getAllCodeBlockName,
+  getAllCodeBlock,
   updateCodeBlockName,
-  addStep,
-  duplicateStep,
-  deleteStep,
-  updateStep,
-} from "../controllers/project/codeBlock.controller";
+} from "../controllers/project/codeBlock/_codeBlock.controller";
 
 const router = Router();
-router.route("/").get(getAllCodeBlockName);
+router.route("/").get(getAllCodeBlock);
 
 router.route("/:id").get(getCodeBlock);
 
 router.route("/").post(newCodeBlock);
 
-router.route("/:id/name").post(updateCodeBlockName);
-router.route("/step/new").post(addStep);
-router.route("/step/duplicate").post(duplicateStep);
-router.route("/step/delete").post(deleteStep);
-router.route("/step/update").post(updateStep);
+router.route("/name").post(updateCodeBlockName);
 
 router.route("/:id").delete(deleteCodeBlock);
-
-// router.route(":componentId").put(updateComponent);
 
 export default router;

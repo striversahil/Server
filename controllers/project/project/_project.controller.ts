@@ -1,7 +1,7 @@
-export * from "./project/deleteProject";
-export * from "./project/newProject";
-export * from "./project/projectInfo";
-export * from "./project/updateName";
+export * from "./deleteProject";
+export * from "./newProject";
+export * from "./projectInfo";
+export * from "./updateName";
 
 const isProduction = process.env.NODE_ENV === "production";
 

@@ -2,7 +2,13 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "declaration": true,
-    "paths": {},
+    "paths": {
+      // App Always started crashing one's i putted the use of path notation here
+      // "@/package/*": ["./package/*"],
+      // "@/service/*": ["./service/*"],
+      // "@/routes/*": ["./routes/*"],
+      // "@/models/*": ["./models/*"]
+    },
     "declarationMap": true,
     "emitDeclarationOnly": true,
     "jsx": "react-jsx",

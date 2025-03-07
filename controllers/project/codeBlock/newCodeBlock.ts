@@ -3,7 +3,7 @@ import asyncHandler from "../../../helper/asyncHandler";
 import ApiResponse from "../../../helper/ApiResponse";
 import CodeBlockService from "../../../service/codeblock.service";
 
-export const getAllCodeBlockName = asyncHandler(
+export const newCodeBlock = asyncHandler(
   async (req: Request, res: Response) => {
     const projectId = req.cookies.project_id;
     if (!projectId) {
@@ -17,19 +17,34 @@ export const getAllCodeBlockName = asyncHandler(
           )
         );
     }
-    const codeBlock = await CodeBlockService.getAllNames(projectId);
+    const { metadata } = req.body;
 
-    if (!codeBlock) {
+    if (!metadata) {
+      return res
+        .status(400)
+        .json(
+          new ApiResponse(
+            400,
+            {},
+            "Missing Information ! Please Provide Complete Information"
+          )
+        );
+    }
+    const project = await CodeBlockService.create(projectId, metadata);
+    if (!project) {
       return res
         .status(500)
         .json(
           new ApiResponse(
             500,
             {},
-            "CodeBlock could not be fetched \n Server Error"
+            "Project could not be created \n Server Error"
           )
         );
     }
-    return res.status(200).json(new ApiResponse(200, codeBlock, "Success"));
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, project, "Success Hurray"));
   }
 );

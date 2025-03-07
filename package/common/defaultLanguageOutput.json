@@ -1,0 +1,38 @@
+[
+  {
+    "value": "python",
+    "label": "Python",
+    "code": "print('Hello World')",
+    "stdout": "Hello World"
+  },
+  {
+    "value": "javascript",
+    "label": "JavaScript",
+    "code": "console.log('Hello World')",
+    "stdout": "Hello World"
+  },
+  {
+    "value": "typescript",
+    "label": "TypeScript",
+    "code": "console.log('Hello World')",
+    "stdout": "Hello World"
+  },
+  {
+    "value": "graphql",
+    "label": "GraphQL",
+    "code": "query {\n  user(id: \"1\") {\n    id\n    name\n    email\n  }\n}",
+    "stdout": "Hello World"
+  },
+  {
+    "value": "mysql",
+    "label": "SQL",
+    "code": "SELECT * FROM test_table WHERE id = 1 AND name = 'John'",
+    "stdout": "Hello World"
+  },
+  {
+    "value": "restapi",
+    "label": "REST API",
+    "code": "console.log('Hello World')",
+    "stdout": "Hello World"
+  }
+]
