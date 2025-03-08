@@ -38,13 +38,16 @@ class SectionService {
     }
   }
 
-  static async delete(id: string, project_id: string): Promise<any | null> {
+  static async delete(
+    section_id: string,
+    project_id: string
+  ): Promise<any | null> {
     try {
-      const section = await Section.findByIdAndDelete(id);
+      const section = await Section.findByIdAndDelete(section_id);
       if (!section) return null;
       const project = await Project.findByIdAndUpdate(project_id, {
         $pull: {
-          sections: id,
+          sections: section_id,
         },
       });
       if (!project) return null;

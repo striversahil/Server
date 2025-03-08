@@ -85,12 +85,12 @@ class ComponentService {
 
   static async delete(
     id: string,
-    project_id: string
+    section_id: string
   ): Promise<ComponentInterface | null> {
     try {
       const component = await Component.findByIdAndDelete(id);
       if (!component) return null;
-      const project = await Project.findByIdAndUpdate(project_id, {
+      const project = await Section.findByIdAndUpdate(section_id, {
         $pull: {
           components: id,
         },

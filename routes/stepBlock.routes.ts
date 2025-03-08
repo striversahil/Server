@@ -6,7 +6,7 @@ import {
   updateCode,
   getAllSteps,
   getStepBlock,
-} from "../controllers/project/StepBlock/_stepBlock.controller";
+} from "../controllers/project/stepBlock/_stepBlock.controller";
 
 const router = Router();
 router.route("/getAll/:id").get(getAllSteps);
