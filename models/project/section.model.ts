@@ -4,7 +4,7 @@ export interface SectionInterface {
   name: string;
   layout: any;
   appearence: any;
-  columns: mongoose.Types.ObjectId[];
+  components: mongoose.Types.ObjectId[];
 }
 export const SectionSchema = new mongoose.Schema<SectionInterface>(
   {
@@ -20,10 +20,10 @@ export const SectionSchema = new mongoose.Schema<SectionInterface>(
       type: Object,
       // required: true,
     },
-    columns: [
+    components: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Column",
+        ref: "Component",
       },
     ],
   },

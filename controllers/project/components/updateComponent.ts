@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import asyncHandler from "../../../helper/asyncHandler";
 import ApiResponse from "../../../helper/ApiResponse";
-import ComponentService from "../../../service/EditorZone/component.service";
+import ComponentService from "../../../service/component.service";
 
 export const updateComponent = asyncHandler(
   async (req: Request, res: Response) => {

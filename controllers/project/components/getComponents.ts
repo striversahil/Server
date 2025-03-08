@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import asyncHandler from "../../../helper/asyncHandler";
 import ApiResponse from "../../../helper/ApiResponse";
-import ComponentService from "../../../service/EditorZone/component.service";
+import ComponentService from "../../../service/component.service";
 
 // It will return all the components of the project in Array format so to render in Frontend when User fetches this
 

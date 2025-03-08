@@ -2,18 +2,18 @@
  * Component Service : It will Assume that You have done all the Validation Checks
  */
 
-import { Column } from "../../models/project/column.model";
 import {
   Component,
   ComponentInterface,
-} from "../../models/project/component.model";
-import { ProjectInterface } from "../../models/project/project.model";
-import { Project } from "../../models/project/project.model";
+} from "../models/project/component.model";
+import { ProjectInterface } from "../models/project/project.model";
+import { Project } from "../models/project/project.model";
+import { Section } from "../models/project/section.model";
 
 class ComponentService {
   static async getAll(project_id: string): Promise<any[] | null> {
     try {
-      const project = await Column.findById(project_id).populate("components");
+      const project = await Section.findById(project_id).populate("components");
       if (!project) return null;
       return project.components || null;
     } catch (error) {

@@ -4,6 +4,7 @@ export interface ComponentInterface extends mongoose.Document {
   name: string;
   payload: object; // Here my Component Payload i.e. Data will Come
   configuration: object; // This will Contain Component Configuration
+  sections: mongoose.Types.ObjectId[];
   coordinates: {
     x: number;
     y: number;
@@ -24,6 +25,12 @@ const ComponenentsSchema = new mongoose.Schema<ComponentInterface>(
       type: Object,
       required: true,
     },
+    sections: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Section",
+      },
+    ],
     configuration: {
       // Let Id for Drag and Drop be Stored Here
       type: Object,

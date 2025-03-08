@@ -21,7 +21,6 @@ const ProjectSchema = new mongoose.Schema<ProjectInterface>(
       type: String,
       default: "Some details about this project",
     },
-
     codeBlocks: [
       {
         type: mongoose.Schema.Types.ObjectId,

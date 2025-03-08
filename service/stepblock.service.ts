@@ -1,6 +1,6 @@
 import { CodeBlock, CodeBlockSchema } from "../models/project/codeblock.model";
 import { StepBlock, StepBlockType } from "../models/project/stepblock.model";
-import languageDefault from "../package/common/defaultLanguageOutput.json";
+import languageDefault from "../package/common/codeBlock/defaultLanguageOutput.json";
 
 class StepBlockService {
   static async getAll(codeBlock_id: string): Promise<any | null> {
