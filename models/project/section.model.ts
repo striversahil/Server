@@ -14,11 +14,11 @@ export const SectionSchema = new mongoose.Schema<SectionInterface>(
     },
     layout: {
       type: Object,
-      // required: true,
+      required: true,
     },
     appearence: {
       type: Object,
-      // required: true,
+      required: true,
     },
     components: [
       {

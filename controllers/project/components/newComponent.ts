@@ -9,20 +9,6 @@ import ComponentService from "../../../service/component.service";
 
 export const newComponent = asyncHandler(
   async (req: Request, res: Response) => {
-    const projectId = req.cookies.project_id;
-
-    if (!projectId) {
-      return res
-        .status(401)
-        .json(
-          new ApiResponse(
-            401,
-            {},
-            "Project does not exist , Try Create it First"
-          )
-        );
-    }
-
     const { metadata, payload } = req.body;
     if (!metadata || !payload) {
       return res
@@ -33,7 +19,7 @@ export const newComponent = asyncHandler(
     }
 
     const component = await ComponentService.create(
-      projectId as string,
+      metadata.section_id as string,
       metadata,
       payload
     );

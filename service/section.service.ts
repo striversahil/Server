@@ -23,6 +23,7 @@ class SectionService {
   static async create(project_id: string): Promise<any | null> {
     try {
       const newSection = new Section({
+        name: "New Section",
         layout: SectionDefault.layout,
         appearence: SectionDefault.appearance,
       });

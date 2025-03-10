@@ -51,7 +51,7 @@ class ComponentService {
   }
 
   static async create(
-    project_id: string,
+    section_id: string,
     metadata: any,
     payload: any
   ): Promise<ComponentInterface | null> {
@@ -62,8 +62,8 @@ class ComponentService {
         payload: payload,
         configuration: metadata.configuration,
       });
-      await Project.findByIdAndUpdate(
-        project_id,
+      await Section.findByIdAndUpdate(
+        section_id,
         {
           $push: {
             components: newComponent._id,

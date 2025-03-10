@@ -8,11 +8,13 @@ import {
 
 const router = Router();
 
-router.route("/").get(newSection);
+// router.route("/").get(newSection);
+
+router.route("/").get(getAllSections);
+
+router.route("/").post(newSection);
 
 router.route("/:id").get(getSection);
-
-// router.route("/").post(newSection);
 
 router.route("/delete").post(deleteSection);
 

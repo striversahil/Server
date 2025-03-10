@@ -5,6 +5,7 @@ import SectionService from "../../../service/section.service";
 
 export const deleteSection = asyncHandler(
   async (req: Request, res: Response) => {
+    const { project_id } = req.cookies;
     const { metadata } = req.body;
     if (!metadata) {
       return res
@@ -19,7 +20,7 @@ export const deleteSection = asyncHandler(
     }
     const section = await SectionService.delete(
       metadata.section_id,
-      metadata.project_id
+      project_id
     );
     if (!section) {
       return res
